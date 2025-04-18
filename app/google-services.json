@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "640706008495",
+    "project_id": "skillboost-6cfba",
+    "storage_bucket": "skillboost-6cfba.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640706008495:android:b1682b52e47f84b8620b5a",
+        "android_client_info": {
+          "package_name": "ph.edu.usc.skillboost"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAShKAeDSe0vWI8wJtD_tBcKyZMlDq0J7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
