@@ -55,8 +55,7 @@
                 android:padding="10dp"
                 android:gravity="center_vertical"
                 android:layout_marginBottom="16dp"
-                android:background="#444444"
-                android:backgroundTint="#444444"
+                android:background="@drawable/rect"
                 android:clipToPadding="false">
 
                 <ImageView
@@ -84,8 +83,7 @@
                 android:padding="10dp"
                 android:gravity="center_vertical"
                 android:layout_marginBottom="24dp"
-                android:background="#444444"
-                android:backgroundTint="#444444"
+                android:background="@drawable/rect"
                 android:clipToPadding="false">
 
                 <ImageView
