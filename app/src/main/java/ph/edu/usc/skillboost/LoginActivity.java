@@ -1,24 +1,55 @@
 package ph.edu.usc.skillboost;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private EditText nameEditText, passwordEditText;
+    private Button signInButton;
+    private ImageView backArrow;
+    private TextView registerNowText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        setContentView(R.layout.activity_login); // Make sure this XML is saved as activity_login.xml
+
+        // Initialize views
+        nameEditText = findViewById(R.id.editTextName);
+        passwordEditText = findViewById(R.id.editTextPassword);
+        signInButton = findViewById(R.id.buttonSignIn);
+        backArrow = findViewById(R.id.backArrow);
+        registerNowText = findViewById(R.id.textRegisterNow);
+
+        signInButton.setOnClickListener(v -> {
+            String name = nameEditText.getText().toString().trim();
+            String password = passwordEditText.getText().toString().trim();
+
+            if (name.isEmpty() || password.isEmpty()) {
+                Toast.makeText(LoginActivity.this, "Please enter both name and password", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
+        backArrow.setOnClickListener(v -> finish());
+
+
+        registerNowText.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
     }
 }
