@@ -34,7 +34,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:id="@+id/cleanerImage"
-                android:src="@drawable/profile"
+                android:src="@drawable/default_profile"
                 android:background="@color/white" />
         </androidx.cardview.widget.CardView>
         <LinearLayout
