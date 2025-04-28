@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/your_image" /> <!-- Replace with dynamic data -->
+            android:src="@drawable/placeholder" /> <!-- Replace with dynamic data -->
 
         <TextView
             android:id="@+id/text_course_title"

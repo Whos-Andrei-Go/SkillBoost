@@ -22,6 +22,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login); // Make sure this XML is saved as activity_login.xml
+        View curView = findViewById(R.id.login);
+        Utilities.setViewPadding(curView);
 
         // Initialize views
         nameEditText = findViewById(R.id.editTextName);
