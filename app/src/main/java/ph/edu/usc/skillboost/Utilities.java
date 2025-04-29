@@ -8,22 +8,24 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class Utilities {
     public static void setViewPadding(View curView){
-        ViewCompat.setOnApplyWindowInsetsListener(curView, (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+        if (curView != null){
+            final int originalLeft = curView.getPaddingLeft();
+            final int originalTop = curView.getPaddingTop();
+            final int originalRight = curView.getPaddingRight();
+            final int originalBottom = curView.getPaddingBottom();
 
-            int currentPaddingLeft = v.getPaddingLeft();
-            int currentPaddingTop = v.getPaddingTop();
-            int currentPaddingRight = v.getPaddingRight();
-            int currentPaddingBottom = v.getPaddingBottom();
+            ViewCompat.setOnApplyWindowInsetsListener(curView, (v, insets) -> {
+                Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
 
-            int newPaddingLeft = currentPaddingLeft + systemBars.left;
-            int newPaddingTop = currentPaddingTop + systemBars.top;
-            int newPaddingRight = currentPaddingRight + systemBars.right;
-            int newPaddingBottom = currentPaddingBottom + systemBars.bottom;
+                v.setPadding(
+                    originalLeft + bars.left,
+                    originalTop + bars.top,
+                    originalRight + bars.right,
+                    originalBottom + bars.bottom
+                );
 
-            v.setPadding(newPaddingLeft, newPaddingTop, newPaddingRight, newPaddingBottom);
-
-            return insets;
-        });
+                return insets;
+            });
+        }
     }
 }

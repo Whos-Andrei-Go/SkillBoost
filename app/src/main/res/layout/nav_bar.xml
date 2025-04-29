@@ -4,122 +4,122 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:layout_gravity="bottom"
-    android:layout_marginHorizontal="-16dp"
-    android:layout_marginBottom="-16dp"
+    android:layout_marginHorizontal="-8dp"
+    android:layout_marginBottom="-8dp"
+
     android:padding="0dp"
-    app:cardCornerRadius="0dp"
+    app:cardCornerRadius="16dp"
     app:cardElevation="8dp"
     android:background="@drawable/bg_nav_top_rounded"
     android:clipChildren="false"
     android:clipToPadding="false">
 
-
-        <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:background="@color/purple"
         android:gravity="center"
         android:weightSum="4">
 
-        <!-- Home (Selected) -->
+        <!-- Home -->
         <LinearLayout
+            android:id="@+id/nav_home"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
 
-            <LinearLayout
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/nav_home"
-                android:background="@drawable/bg_selected_nav_item"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_marginBottom="4dp">
+            <ImageView
+                android:id="@+id/icon_nav_home"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/icon_nav_home"
+                app:tint="@color/silver" />
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/nav_selected_home"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Home"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/txt_nav_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textColor="@color/silver"
+                android:textSize="12sp"/>
 
         </LinearLayout>
 
         <!-- Courses -->
         <LinearLayout
+            android:id="@+id/nav_courses"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:id="@+id/nav_courses"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/nav_courses"
-                />
+                android:id="@+id/icon_nav_courses"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/icon_nav_courses"
+                app:tint="@color/silver" />
 
             <TextView
+                android:id="@+id/txt_nav_courses"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Courses"
-                android:textColor="#7B6F8E"
+                android:textColor="@color/silver"
                 android:textSize="12sp"/>
         </LinearLayout>
 
         <!-- Badges -->
         <LinearLayout
+            android:id="@+id/nav_badges"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:id="@+id/nav_badges"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/nav_badges"
-                />
+                android:id="@+id/icon_nav_badges"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/icon_nav_badges"
+                app:tint="@color/silver" />
 
             <TextView
+                android:id="@+id/txt_nav_badges"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Badges"
-                android:textColor="#7B6F8E"
+                android:textColor="@color/silver"
                 android:textSize="12sp"/>
         </LinearLayout>
 
         <!-- Profile -->
         <LinearLayout
+            android:id="@+id/nav_profile"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:id="@+id/nav_profile"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/nav_profile"
-                />
+                android:id="@+id/icon_nav_profile"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/icon_nav_profile"
+                app:tint="@color/silver" />
 
             <TextView
+                android:id="@+id/txt_nav_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Profile"
-                android:textColor="#7B6F8E"
+                android:textColor="@color/silver"
                 android:textSize="12sp"/>
         </LinearLayout>
         </LinearLayout>

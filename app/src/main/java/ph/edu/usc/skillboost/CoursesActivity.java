@@ -1,24 +1,25 @@
 package ph.edu.usc.skillboost;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class HomepageActivity extends BaseActivity {
+public class CoursesActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentLayout(R.layout.activity_homepage);
+        EdgeToEdge.enable(this);
+        setContentLayout(R.layout.activity_courses);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_courses);
         List<Course> courseList = new ArrayList<>();
@@ -29,5 +30,6 @@ public class HomepageActivity extends BaseActivity {
         CourseAdapter adapter = new CourseAdapter(courseList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
     }
 }

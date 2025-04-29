@@ -39,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (name.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please enter both name and password", Toast.LENGTH_SHORT).show();
             } else {
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, HomepageActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         backArrow.setOnClickListener(v -> finish());
 
         logInText.setOnClickListener(v -> {
-            Intent intent = new Intent(this, RegisterActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         });
     }

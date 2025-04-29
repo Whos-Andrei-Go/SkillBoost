@@ -37,20 +37,18 @@ public class LoginActivity extends AppCompatActivity {
             String password = passwordEditText.getText().toString().trim();
 
             if (name.isEmpty() || password.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Please enter both name and password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please enter both name and password", Toast.LENGTH_SHORT).show();
             } else {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(this, HomepageActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
 
-
         backArrow.setOnClickListener(v -> finish());
 
-
         registerNowText.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
         });
     }
