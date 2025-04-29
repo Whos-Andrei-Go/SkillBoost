@@ -1,16 +1,10 @@
 package ph.edu.usc.skillboost;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class HomepageActivity extends BaseActivity {
