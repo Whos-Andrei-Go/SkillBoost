@@ -3,6 +3,7 @@ package ph.edu.usc.skillboost;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import java.util.List;
 public class HomepageActivity extends BaseActivity {
 
     LinearLayout moreCourses;
+    ImageView notifications;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,16 @@ public class HomepageActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomepageActivity.this, CoursesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        notifications = findViewById(R.id.notifications);
+
+        notifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomepageActivity.this, NotificationsActivity.class);
                 startActivity(intent);
             }
         });
