@@ -1,6 +1,10 @@
 package ph.edu.usc.skillboost;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomepageActivity extends BaseActivity {
+
+    LinearLayout moreCourses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +27,18 @@ public class HomepageActivity extends BaseActivity {
         courseList.add(new Course(R.drawable.course1, "UI/UX Design", "Design modern interfaces"));
 
         CourseAdapter adapter = new CourseAdapter(courseList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
+
+        moreCourses = findViewById(R.id.morecourses);
+
+        moreCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomepageActivity.this, CoursesActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
