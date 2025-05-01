@@ -8,17 +8,19 @@
     tools:context=".CoursesActivity"
     android:orientation="vertical"
     android:background="@color/black"
-    android:padding="40dp">
+    android:padding="24dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp">
 
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:id="@+id/back"
+            android:layout_gravity="center"
             android:src="@drawable/arrow_left"
             />
 
@@ -28,8 +30,10 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/savedCourses"
+            android:layout_gravity="center"
             android:src="@drawable/bookmark"
             />
     </LinearLayout>
@@ -62,41 +66,49 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/filterRecycler"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Top Courses"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:clipToPadding="false"
             android:orientation="horizontal"
-            android:id="@+id/morecourses">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="More"
-                android:textColor="#A89AE2"
-                android:textSize="14sp" />
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:layout_marginBottom="8dp" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/arrow_right"/>
-        </LinearLayout>
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_courses"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:padding="8dp"
-        android:clipToPadding="false" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-16dp"
+            android:layout_marginEnd="-16dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_courses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:layout_marginBottom="8dp" />
+
+        </FrameLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
