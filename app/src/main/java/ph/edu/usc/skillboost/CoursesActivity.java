@@ -1,14 +1,18 @@
 package ph.edu.usc.skillboost;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CoursesActivity extends BaseActivity {
+
+    RecyclerView filterRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,18 @@ public class CoursesActivity extends BaseActivity {
         CourseAdapter adapter = new CourseAdapter(courseList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+        filterRecycler = findViewById(R.id.filterRecycler);
+        List<String> filters = Arrays.asList("All", "Top Courses", "Recommended", "Recently Added", "Other");
+
+        FilterAdapter filterAdapter = new FilterAdapter(filters, filter -> {
+            // TODO: Handle filter click - update RecyclerView contents, etc.
+            Toast.makeText(this, "Selected: " + filter, Toast.LENGTH_SHORT).show();
+        });
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        filterRecycler.setLayoutManager(layoutManager);
+        filterRecycler.setAdapter(filterAdapter);
 
     }
 }
