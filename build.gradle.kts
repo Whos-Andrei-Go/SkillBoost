@@ -6,6 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        classpath(libs.gradle)
         classpath(libs.google.services)
     }
 }

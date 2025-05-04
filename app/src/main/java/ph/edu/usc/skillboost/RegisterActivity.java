@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ph.edu.usc.skillboost.view.LoginActivity;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText nameEditText, passwordEditText;
