@@ -56,11 +56,11 @@
                     android:layout_marginEnd="8dp" />
 
                 <EditText
-                    android:id="@+id/editTextName"
+                    android:id="@+id/editTextEmail"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Name"
+                    android:hint="Email"
                     android:background="@android:color/transparent"
                     android:textColor="#FFFFFF"
                     android:textColorHint="#CCCCCC"
