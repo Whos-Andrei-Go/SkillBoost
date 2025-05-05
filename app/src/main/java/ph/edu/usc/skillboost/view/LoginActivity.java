@@ -18,7 +18,7 @@ import ph.edu.usc.skillboost.viewmodel.AuthViewModel;
 
 public class LoginActivity extends ComponentActivity {
 
-    private EditText nameEditText, passwordEditText;
+    private EditText emailEditText, passwordEditText;
     private Button signInButton;
     private ImageView backArrow;
     private TextView registerNowText;
@@ -46,18 +46,18 @@ public class LoginActivity extends ComponentActivity {
         Utilities.setViewPadding(curView);
 
         // Initialize views
-        nameEditText = findViewById(R.id.editTextName);
+        emailEditText = findViewById(R.id.editTextEmail);
         passwordEditText = findViewById(R.id.editTextPassword);
         signInButton = findViewById(R.id.buttonSignIn);
         registerNowText = findViewById(R.id.textRegisterNow);
 
         signInButton.setOnClickListener(v -> {
-            String email = nameEditText.getText().toString().trim();
+            String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
 
             if (email.isEmpty()) {
-                nameEditText.setError("Email is required");
-                nameEditText.requestFocus();
+                emailEditText.setError("Email is required");
+                emailEditText.requestFocus();
                 return;
             }
 
