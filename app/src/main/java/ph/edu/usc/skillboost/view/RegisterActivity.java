@@ -1,4 +1,4 @@
-package ph.edu.usc.skillboost;
+package ph.edu.usc.skillboost.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import ph.edu.usc.skillboost.view.LoginActivity;
+import ph.edu.usc.skillboost.R;
+import ph.edu.usc.skillboost.utils.Utilities;
 import ph.edu.usc.skillboost.viewmodel.AuthViewModel;
 
 public class RegisterActivity extends AppCompatActivity {
