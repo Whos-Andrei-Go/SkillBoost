@@ -19,12 +19,8 @@ import ph.edu.usc.skillboost.viewmodel.AuthViewModel;
 public class LoginActivity extends ComponentActivity {
 
     private EditText emailEditText, passwordEditText;
-    private Button signInButton;
-    private ImageView backArrow;
-    private TextView registerNowText;
 
     private AuthViewModel authViewModel;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +44,8 @@ public class LoginActivity extends ComponentActivity {
         // Initialize views
         emailEditText = findViewById(R.id.editTextEmail);
         passwordEditText = findViewById(R.id.editTextPassword);
-        signInButton = findViewById(R.id.buttonSignIn);
-        registerNowText = findViewById(R.id.textRegisterNow);
+        Button signInButton = findViewById(R.id.buttonSignIn);
+        TextView registerNowText = findViewById(R.id.textRegisterNow);
 
         signInButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString().trim();
