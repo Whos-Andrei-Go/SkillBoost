@@ -1,5 +1,6 @@
 package ph.edu.usc.skillboost.repository;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -53,7 +54,14 @@ public class AuthRepository {
                 });
     }
 
-    public void logout() {
+    public void logout(Context context) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if ( user != null){
+            context.getSharedPreferences("user_prefs",Context.MODE_PRIVATE)
+                    .edit()
+                    .putString("last_email",user.getEmail())
+                    .apply();
+        }
         firebaseAuth.signOut();
         userLiveData.setValue(null); // clear user LiveData
     }
