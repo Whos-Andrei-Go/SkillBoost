@@ -1,4 +1,4 @@
-package ph.edu.usc.skillboost;
+package ph.edu.usc.skillboost.view;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -9,6 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import ph.edu.usc.skillboost.model.Course;
+import ph.edu.usc.skillboost.view.adapters.FilterAdapter;
+import ph.edu.usc.skillboost.R;
+import ph.edu.usc.skillboost.view.adapters.CourseAdapter;
 
 public class CoursesActivity extends BaseActivity {
 

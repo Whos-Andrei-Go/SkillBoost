@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity"
+    tools:context=".view.ProfileActivity"
     android:orientation="vertical"
     android:background="@color/black"
     android:padding="24dp">
@@ -119,13 +119,22 @@
         android:textColorHint="@color/gray" />
 
     <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
         android:id="@+id/btnsavechanges"
-        android:text="Save Changes"
+        android:layout_width="300dp"
+        android:layout_height="49dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:textColor="@color/white"
-        android:background="@color/gray" />
+        android:background="@color/gray"
+        android:text="Save Changes"
+        android:textColor="@color/white" />
+    <Button
+        android:id="@+id/btnlogout"
+        android:layout_width="300dp"
+        android:layout_height="49dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray"
+        android:text="Log Out"
+        android:textColor="@color/white" />
 
 </LinearLayout>

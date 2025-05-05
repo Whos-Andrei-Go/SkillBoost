@@ -2,39 +2,44 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
     <application
+        android:name=".application.FirebaseApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Skillboost"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SkillBoost"
         tools:targetApi="31">
         <activity
-            android:name=".NotificationsActivity"
+            android:name=".view.NotificationsActivity"
             android:exported="true" />
         <activity
-            android:name=".BadgesActivity"
+            android:name=".view.BadgesActivity"
             android:exported="false" />
         <activity
-            android:name=".CoursesActivity"
+            android:name=".view.CoursesActivity"
             android:exported="true" />
         <activity
-            android:name=".BaseActivity"
+            android:name=".view.BaseActivity"
             android:exported="false" />
         <activity
-            android:name=".HomepageActivity"
+            android:name=".view.HomepageActivity"
             android:exported="true" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".view.ProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".view.RegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

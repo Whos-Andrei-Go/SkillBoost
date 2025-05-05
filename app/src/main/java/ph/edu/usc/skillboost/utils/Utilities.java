@@ -1,4 +1,4 @@
-package ph.edu.usc.skillboost;
+package ph.edu.usc.skillboost.utils;
 
 import android.view.View;
 
