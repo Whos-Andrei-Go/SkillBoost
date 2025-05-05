@@ -2,7 +2,6 @@ package ph.edu.usc.skillboost.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,19 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseUser;
-
-import ph.edu.usc.skillboost.HomepageActivity;
 import ph.edu.usc.skillboost.R;
-import ph.edu.usc.skillboost.RegisterActivity;
-import ph.edu.usc.skillboost.Utilities;
-import ph.edu.usc.skillboost.model.User;
+import ph.edu.usc.skillboost.utils.Utilities;
 import ph.edu.usc.skillboost.viewmodel.AuthViewModel;
 
 public class LoginActivity extends ComponentActivity {

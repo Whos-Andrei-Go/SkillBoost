@@ -7,7 +7,7 @@
 
 
     <application
-        android:name=".FirebaseApplication"
+        android:name=".application.FirebaseApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -18,25 +18,25 @@
         android:theme="@style/Theme.SkillBoost"
         tools:targetApi="31">
         <activity
-            android:name=".NotificationsActivity"
+            android:name=".view.NotificationsActivity"
             android:exported="true" />
         <activity
-            android:name=".BadgesActivity"
+            android:name=".view.BadgesActivity"
             android:exported="false" />
         <activity
-            android:name=".CoursesActivity"
+            android:name=".view.CoursesActivity"
             android:exported="true" />
         <activity
-            android:name=".BaseActivity"
+            android:name=".view.BaseActivity"
             android:exported="false" />
         <activity
-            android:name=".HomepageActivity"
+            android:name=".view.HomepageActivity"
             android:exported="true" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".view.ProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".view.RegisterActivity"
             android:exported="true" />
         <activity
             android:name=".view.LoginActivity"

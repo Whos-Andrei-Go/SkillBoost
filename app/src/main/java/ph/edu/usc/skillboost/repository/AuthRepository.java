@@ -1,8 +1,6 @@
 package ph.edu.usc.skillboost.repository;
 
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -11,9 +9,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
-import ph.edu.usc.skillboost.HomepageActivity;
 import ph.edu.usc.skillboost.model.User;
-import ph.edu.usc.skillboost.view.LoginActivity;
 
 public class AuthRepository {
     private FirebaseAuth firebaseAuth;

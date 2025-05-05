@@ -1,4 +1,4 @@
-package ph.edu.usc.skillboost;
+package ph.edu.usc.skillboost.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.widget.Button;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import ph.edu.usc.skillboost.view.LoginActivity;
+import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.viewmodel.AuthViewModel;
 
 public class ProfileActivity extends BaseActivity {
