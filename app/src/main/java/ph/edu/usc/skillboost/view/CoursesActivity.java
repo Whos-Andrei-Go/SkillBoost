@@ -1,6 +1,12 @@
 package ph.edu.usc.skillboost.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +24,10 @@ import ph.edu.usc.skillboost.view.adapters.CourseAdapter;
 public class CoursesActivity extends BaseActivity {
 
     RecyclerView filterRecycler;
+    ImageView back, bookmark;
+    EditText searchBar;
+    List<Course> courseList;
+    CourseAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +35,33 @@ public class CoursesActivity extends BaseActivity {
         setContentLayout(R.layout.activity_courses);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_courses);
-        List<Course> courseList = new ArrayList<>();
+        searchBar = findViewById(R.id.search_bar);
+
+        courseList = new ArrayList<>();
         courseList.add(new Course(R.drawable.course1, "Math Basics", "Introduction to Math"));
         courseList.add(new Course(R.drawable.course2, "Advanced Java", "Deep dive into OOP"));
         courseList.add(new Course(R.drawable.course1, "UI/UX Design", "Design modern interfaces"));
 
-        CourseAdapter adapter = new CourseAdapter(courseList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new CourseAdapter(this, courseList, CourseAdapter.CardSize.LARGE);
+        recyclerView.setLayoutManager(new LinearLayoutManager(CoursesActivity.this));
         recyclerView.setAdapter(adapter);
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No action needed
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterCourses(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No action needed
+            }
+        });
 
         filterRecycler = findViewById(R.id.filterRecycler);
         List<String> filters = Arrays.asList("All", "Top Courses", "Recommended", "Recently Added", "Other");
@@ -46,5 +75,34 @@ public class CoursesActivity extends BaseActivity {
         filterRecycler.setLayoutManager(layoutManager);
         filterRecycler.setAdapter(filterAdapter);
 
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CoursesActivity.this, HomepageActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        bookmark = findViewById(R.id.savedCourses);
+        bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo change this into SavedCourses page
+                Intent intent = new Intent(CoursesActivity.this, HomepageActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void filterCourses(String query) {
+        List<Course> filteredCourses = new ArrayList<>();
+        for (Course course : courseList) {
+            if (course.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                course.getDescription().toLowerCase().contains(query.toLowerCase())) {
+                filteredCourses.add(course);
+            }
+        }
+        adapter.updateCourseList(filteredCourses);
     }
 }
