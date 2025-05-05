@@ -59,10 +59,7 @@ public class LoginActivity extends ComponentActivity {
         nameEditText = findViewById(R.id.editTextName);
         passwordEditText = findViewById(R.id.editTextPassword);
         signInButton = findViewById(R.id.buttonSignIn);
-        backArrow = findViewById(R.id.backArrow);
         registerNowText = findViewById(R.id.textRegisterNow);
-
-
 
         signInButton.setOnClickListener(v -> {
             String email = nameEditText.getText().toString().trim();
@@ -98,8 +95,6 @@ public class LoginActivity extends ComponentActivity {
                 Toast.makeText(this, error, Toast.LENGTH_LONG).show();
             }
         });
-
-        backArrow.setOnClickListener(v -> finish());
 
         registerNowText.setOnClickListener(v -> {
             Intent intent = new Intent(this, RegisterActivity.class);

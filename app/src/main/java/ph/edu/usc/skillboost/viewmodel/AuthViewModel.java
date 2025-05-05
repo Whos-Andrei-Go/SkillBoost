@@ -20,6 +20,10 @@ public class AuthViewModel extends ViewModel {
         authRepository.logout();
     }
 
+    public void register(String email, String password, String displayName) {
+        authRepository.register(email, password, displayName);
+    }
+
     public boolean isUserLoggedIn() {
         return authRepository.isUserLoggedIn();
     }
