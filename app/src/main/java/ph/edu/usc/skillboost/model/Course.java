@@ -4,11 +4,19 @@ public class Course {
     int imageResId;
     String title;
     String description;
+    private boolean isCompleted; // completed in user profile
 
     public Course(int imageResId, String title, String description) {
         this.imageResId = imageResId;
         this.title = title;
         this.description = description;
+    }
+
+    public Course(int imageResId, String title, String description, boolean isCompleted) {
+        this.imageResId = imageResId;
+        this.title = title;
+        this.description = description;
+        this.isCompleted = isCompleted;
     }
 
     public int getImageResId() {
@@ -33,6 +41,10 @@ public class Course {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
     }
 }
 
