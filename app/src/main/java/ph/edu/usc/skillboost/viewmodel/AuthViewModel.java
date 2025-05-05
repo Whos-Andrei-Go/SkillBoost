@@ -1,5 +1,7 @@
 package ph.edu.usc.skillboost.viewmodel;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import ph.edu.usc.skillboost.model.User;
@@ -16,8 +18,8 @@ public class AuthViewModel extends ViewModel {
         authRepository.login(email, password);
     }
 
-    public void logout() {
-        authRepository.logout();
+    public void logout(Context context) {
+        authRepository.logout(context);
     }
 
     public void register(String email, String password, String displayName) {

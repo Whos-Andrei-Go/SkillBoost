@@ -1,6 +1,7 @@
 package ph.edu.usc.skillboost.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -50,6 +51,9 @@ public class LoginActivity extends ComponentActivity {
         passwordEditText = findViewById(R.id.editTextPassword);
         signInButton = findViewById(R.id.buttonSignIn);
         registerNowText = findViewById(R.id.textRegisterNow);
+        SharedPreferences prefs = getSharedPreferences("user_prefs",MODE_PRIVATE);
+        String lastEmail = prefs.getString("last_email","");
+        nameEditText.setText(lastEmail);
 
         signInButton.setOnClickListener(v -> {
             String email = nameEditText.getText().toString().trim();

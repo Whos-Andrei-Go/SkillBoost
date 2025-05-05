@@ -21,7 +21,7 @@ public class ProfileActivity extends BaseActivity {
         logoutButton = findViewById(R.id.btnlogout);
 
         logoutButton.setOnClickListener(v -> {
-            authViewModel.logout();
+            authViewModel.logout(this);
 
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
