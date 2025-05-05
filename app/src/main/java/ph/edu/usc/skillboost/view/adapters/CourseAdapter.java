@@ -1,4 +1,4 @@
-package ph.edu.usc.skillboost;
+package ph.edu.usc.skillboost.view.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
+import ph.edu.usc.skillboost.R;
+import ph.edu.usc.skillboost.model.Course;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
 
@@ -29,9 +32,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     @Override
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
         Course course = courseList.get(position);
-        holder.title.setText(course.title);
-        holder.description.setText(course.description);
-        holder.image.setImageResource(course.imageResId);
+        holder.title.setText(course.getTitle());
+        holder.description.setText(course.getDescription());
+        holder.image.setImageResource(course.getImageResId());
     }
 
     @Override

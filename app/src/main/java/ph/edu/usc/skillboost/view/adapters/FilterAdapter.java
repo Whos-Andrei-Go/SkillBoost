@@ -1,4 +1,4 @@
-package ph.edu.usc.skillboost;
+package ph.edu.usc.skillboost.view.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
+import ph.edu.usc.skillboost.R;
 
 public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder> {
 

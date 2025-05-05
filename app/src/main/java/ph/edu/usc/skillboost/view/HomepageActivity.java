@@ -1,4 +1,4 @@
-package ph.edu.usc.skillboost;
+package ph.edu.usc.skillboost.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ph.edu.usc.skillboost.model.Course;
+import ph.edu.usc.skillboost.R;
+import ph.edu.usc.skillboost.view.adapters.CourseAdapter;
 
 public class HomepageActivity extends BaseActivity {
 
