@@ -26,9 +26,9 @@ public class CoursesActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_courses);
         List<Course> courseList = new ArrayList<>();
-        courseList.add(new Course(R.drawable.course1, "Math Basics", "Introduction to Math"));
-        courseList.add(new Course(R.drawable.course2, "Advanced Java", "Deep dive into OOP"));
-        courseList.add(new Course(R.drawable.course1, "UI/UX Design", "Design modern interfaces"));
+        courseList.add(new Course("1", "Math Basics", "Introduction to Math", new ArrayList<>(), new ArrayList<>(),R.drawable.course1));
+        courseList.add(new Course("2", "Advanced Java", "Deep dive into OOP", new ArrayList<>(), new ArrayList<>(), R.drawable.course2));
+        courseList.add(new Course("3", "UI/UX Design", "Design modern interfaces", new ArrayList<>(), new ArrayList<>(), R.drawable.course1));
 
         CourseAdapter adapter = new CourseAdapter(courseList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
