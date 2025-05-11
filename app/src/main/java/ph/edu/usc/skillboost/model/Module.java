@@ -6,6 +6,8 @@ public class Module {
     private String title;
     private String content;
     private String mediaUrl;
+    private String description;
+    private boolean isSelected;
 
     public Module() {}
 
@@ -31,4 +33,10 @@ public class Module {
 
     public String getMediaUrl() { return mediaUrl; }
     public void setMediaUrl(String mediaUrl) { this.mediaUrl = mediaUrl; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public boolean isSelected() { return isSelected; }
+    public void toggleSelected() { this.isSelected = !this.isSelected; }
 }
