@@ -34,16 +34,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Step Back In."
+                android:fontFamily="@font/poppins_bold"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:layout_marginBottom="24dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
                 android:orientation="horizontal"
-                android:padding="10dp"
+                android:paddingVertical="6dp"
+                android:paddingHorizontal="16dp"
                 android:gravity="center_vertical"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/rect"
@@ -61,17 +63,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Email"
+                    android:fontFamily="@font/poppins_regular"
                     android:background="@android:color/transparent"
                     android:textColor="#FFFFFF"
+                    android:textSize="14sp"
                     android:textColorHint="#CCCCCC"
                     android:inputType="textPersonName" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
                 android:orientation="horizontal"
-                android:padding="10dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
                 android:gravity="center_vertical"
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/rect"
@@ -88,7 +93,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="14sp"
                     android:hint="Password"
+                    android:fontFamily="@font/poppins_regular"
                     android:background="@android:color/transparent"
                     android:textColor="#FFFFFF"
                     android:textColorHint="#CCCCCC"
@@ -96,10 +103,39 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/buttonGoogleLogin"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:text="Sign In"
+                android:fontFamily="@font/poppins_regular"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#B79EFF"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/buttonFacebookLogin"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:text="Sign In"
+                android:fontFamily="@font/poppins_regular"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#B79EFF"
+                android:layout_marginBottom="16dp" />
+
+            <Button
                 android:id="@+id/buttonSignIn"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
                 android:text="Sign In"
+                android:fontFamily="@font/poppins_regular"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
                 android:backgroundTint="#B79EFF"
@@ -110,13 +146,16 @@
                 android:layout_height="wrap_content"
                 android:text="Don’t have an account?"
                 android:textColor="#CCCCCC"
+                android:fontFamily="@font/poppins_regular"
                 android:textAlignment="center"
                 android:textSize="14sp" />
             <TextView
                 android:id="@+id/textRegisterNow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="Register now >"
+                android:fontFamily="@font/poppins_regular"
                 android:textColor="#A89AE2"
                 android:textAlignment="center"
                 android:textSize="14sp" />

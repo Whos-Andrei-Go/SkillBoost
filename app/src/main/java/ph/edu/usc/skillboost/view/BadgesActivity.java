@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ph.edu.usc.skillboost.Badge;
+import ph.edu.usc.skillboost.BadgeAdapter;
 import ph.edu.usc.skillboost.R;
 
 public class BadgesActivity extends BaseActivity {
