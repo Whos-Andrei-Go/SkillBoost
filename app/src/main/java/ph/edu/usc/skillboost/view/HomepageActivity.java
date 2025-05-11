@@ -2,7 +2,10 @@ package ph.edu.usc.skillboost.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +27,9 @@ public class HomepageActivity extends BaseActivity {
 
     LinearLayout moreCourses;
     ImageView notifications;
+    EditText searchBar;
+    List<Course> courseList;
+    CourseAdapter adapter;
     TextView username;
 
     @Override
@@ -49,14 +55,39 @@ public class HomepageActivity extends BaseActivity {
         }
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_courses);
-        List<Course> courseList = new ArrayList<>();
+        searchBar = findViewById(R.id.search_bar);
+
+        courseList = new ArrayList<>();
         courseList.add(new Course("1", "Math Basics", "Introduction to Math", new ArrayList<>(), new ArrayList<>(),R.drawable.course1));
         courseList.add(new Course("2", "Advanced Java", "Deep dive into OOP", new ArrayList<>(), new ArrayList<>(), R.drawable.course2));
         courseList.add(new Course("3", "UI/UX Design", "Design modern interfaces", new ArrayList<>(), new ArrayList<>(), R.drawable.course1));
 
-        CourseAdapter adapter = new CourseAdapter(courseList);
+        adapter = new CourseAdapter(this, courseList, CourseAdapter.CardSize.MEDIUM);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No action needed
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterCourses(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No action needed
+            }
+        });
+
+        searchBar.setOnEditorActionListener((v, actionId, event) -> {
+            // Consume the "Enter" key press event
+            return true;
+        });
+
 
         moreCourses = findViewById(R.id.morecourses);
 
@@ -77,8 +108,16 @@ public class HomepageActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+    }
 
-
-
+    private void filterCourses(String query) {
+        List<Course> filteredCourses = new ArrayList<>();
+        for (Course course : courseList) {
+            if (course.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                    course.getDescription().toLowerCase().contains(query.toLowerCase())) {
+                filteredCourses.add(course);
+            }
+        }
+        adapter.updateCourseList(filteredCourses);
     }
 }
