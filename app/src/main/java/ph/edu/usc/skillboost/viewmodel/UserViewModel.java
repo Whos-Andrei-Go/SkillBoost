@@ -8,27 +8,35 @@ import ph.edu.usc.skillboost.model.User;
 import ph.edu.usc.skillboost.repository.UserRepository;
 
 public class UserViewModel extends ViewModel {
-    private final UserRepository repository = new UserRepository();
-    private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
+    private final UserRepository repository;
+    private final MutableLiveData<User> userLiveData;
+    private final MutableLiveData<Boolean> operationStatus;
 
-    public LiveData<User> getUserLiveData() {
+    public UserViewModel() {
+        repository = new UserRepository();
+        userLiveData = new MutableLiveData<>();
+        operationStatus = new MutableLiveData<>();
+    }
+
+    public LiveData<User> getUser(String uid) {
+        repository.getUserById(uid).observeForever(userLiveData::setValue);
         return userLiveData;
     }
 
-    public void fetchUser(String uid) {
-        repository.getUser(uid, task -> {
-            if (task.isSuccessful() && task.getResult().exists()) {
-                User user = task.getResult().toObject(User.class);
-                userLiveData.setValue(user);
-            }
-        });
+    public LiveData<Boolean> getOperationStatus() {
+        return operationStatus;
     }
 
-    public void registerUser(User user) {
-        repository.createUser(user, task -> {
-            if (task.isSuccessful()) {
-                userLiveData.setValue(user);
-            }
-        });
+    public void createUser(User user) {
+        repository.createUser(user).observeForever(operationStatus::setValue);
+    }
+
+    public void updateUser(User user) {
+        repository.updateUser(user).observeForever(operationStatus::setValue);
+    }
+
+    public void deleteUser(String uid) {
+        repository.deleteUser(uid).observeForever(operationStatus::setValue);
     }
 }
+

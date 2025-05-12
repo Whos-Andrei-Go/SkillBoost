@@ -1,7 +1,7 @@
 package ph.edu.usc.skillboost.model;
 
 public class Notification {
-    private String id;
+    private String notificationId;
     private String uid;
     private String title;
     private String message;
@@ -10,15 +10,15 @@ public class Notification {
     public Notification() {}
 
     public Notification(String id, String uid, String title, String message, long timestamp) {
-        this.id = id;
+        this.notificationId = id;
         this.uid = uid;
         this.title = title;
         this.message = message;
         this.timestamp = timestamp;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getNotificationId() { return notificationId; }
+    public void setId(String notificationId) { this.notificationId = notificationId; }
 
     public String getUid() { return uid; }
     public void setUid(String uid) { this.uid = uid; }
