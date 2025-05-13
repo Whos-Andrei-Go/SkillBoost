@@ -60,12 +60,11 @@ public class CourseDetailsActivity extends AppCompatActivity {
         String source = getIntent().getStringExtra("source");
 
         back.setOnClickListener(v -> {
-            if ("courses".equals(source)) {
-                startActivity(new Intent(CourseDetailsActivity.this, CoursesActivity.class));
-            } else if ("home".equals(source)) {
+            if ("home".equals(source)) {
                 startActivity(new Intent(CourseDetailsActivity.this, HomepageActivity.class));
+            } else{
+                startActivity(new Intent(CourseDetailsActivity.this, CoursesActivity.class));
             }
-            finish();
         });
 
 

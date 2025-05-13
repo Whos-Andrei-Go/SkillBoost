@@ -3,7 +3,10 @@
 
     <!-- Modules -->
     <group android:checkableBehavior="single">
-        <item android:title="Modules" />
+        <item
+            android:title="Modules"
+            android:icon="@null"
+            android:textAppearance="@style/CustomMenuTextAppearance"/>
         <item
             android:id="@+id/module1"
             android:icon="@drawable/icon_nav_home"
@@ -27,21 +30,30 @@
     </group>
 
     <!-- Exam -->
-    <item android:title="Module Exam" />
+    <item
+        android:title="Module Exam"
+        android:icon="@null"
+        android:textAppearance="@style/CustomMenuTextAppearance"/>
     <item
         android:id="@+id/module_exam"
         android:icon="@drawable/icon_nav_home"
         android:title="Module Exam" />
 
     <!-- Certificate -->
-    <item android:title="Certificate" />
+    <item
+        android:title="Certificate"
+        android:icon="@null"
+        android:textAppearance="@style/CustomMenuTextAppearance"/>
     <item
         android:id="@+id/certificate"
         android:icon="@drawable/icon_nav_home"
         android:title="Certificate" />
 
     <!-- About -->
-    <item android:title="Other Info" />
+    <item
+        android:title="Other Info"
+        android:icon="@null"
+        android:textAppearance="@style/CustomMenuTextAppearance"/>
     <item
         android:id="@+id/about_module"
         android:icon="@drawable/icon_nav_home"
