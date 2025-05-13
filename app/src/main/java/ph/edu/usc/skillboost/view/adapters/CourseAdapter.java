@@ -1,6 +1,7 @@
 package ph.edu.usc.skillboost.view.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.model.Course;
+import ph.edu.usc.skillboost.view.CourseDetailsActivity;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
 
@@ -23,11 +25,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     private List<Course> courseList;
     private CardSize cardSize;
     private Context context;
+    private String source;
 
-    public CourseAdapter(Context context, List<Course> courseList, CardSize cardSize) {
+    public CourseAdapter(Context context, List<Course> courseList, CardSize cardSize, String source) {
         this.courseList = courseList;
         this.cardSize = cardSize;
         this.context = context;
+        this.source = source;
     }
 
     @NonNull
@@ -61,12 +65,29 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         return new CourseViewHolder(view);
     }
 
+//    @Override
+//    public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
+//        Course course = courseList.get(position);
+//        holder.title.setText(course.getTitle());
+//        holder.description.setText(course.getDescription());
+//        holder.image.setImageResource(course.getImageResId());
+//    }
+    // temporary route
     @Override
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
         Course course = courseList.get(position);
+
+        // Set course details (title, description, etc.)
         holder.title.setText(course.getTitle());
         holder.description.setText(course.getDescription());
         holder.image.setImageResource(course.getImageResId());
+
+        // Set onClickListener to route to CourseDetailsActivity
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, CourseDetailsActivity.class);
+            intent.putExtra("source", source); // Pass the origin
+            context.startActivity(intent);
+        });
     }
 
     @Override
