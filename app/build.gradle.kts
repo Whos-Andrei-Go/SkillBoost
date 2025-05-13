@@ -51,24 +51,20 @@ dependencies {
 
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.livedata.ktx)
-
     implementation(libs.material)
-
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-
     implementation(libs.glide)
-
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     annotationProcessor(libs.room.compiler)
-
     testImplementation(libs.junit)
-
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
     implementation(libs.google.firebase.analytics)
+
+    // Add androidx.core for font handling in XML views
+    implementation("androidx.core:core:1.8.0")
 }
 
 apply(plugin = "com.google.gms.google-services")

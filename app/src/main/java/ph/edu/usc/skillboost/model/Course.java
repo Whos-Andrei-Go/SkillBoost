@@ -1,50 +1,46 @@
 package ph.edu.usc.skillboost.model;
 
+import java.util.List;
+
 public class Course {
-    int imageResId;
-    String title;
-    String description;
-    private boolean isCompleted; // completed in user profile
 
-    public Course(int imageResId, String title, String description) {
-        this.imageResId = imageResId;
+    private String courseId;
+    private int imageResId;
+    private String title;
+    private String description;
+
+    private List<String> tags;
+    private List<String> categories;
+
+    public Course() {}
+
+    public Course(String courseId, String title, String description, List<String> tags, List<String> categories, int imageUrl) {
+        this.courseId = courseId;
         this.title = title;
         this.description = description;
+        this.tags = tags;
+        this.categories = categories;
+        this.imageResId = imageUrl;
     }
 
-    public Course(int imageResId, String title, String description, boolean isCompleted) {
-        this.imageResId = imageResId;
-        this.title = title;
-        this.description = description;
-        this.isCompleted = isCompleted;
-    }
+    public String getCourseId() { return courseId; }
+    public void setCourseId(String courseId) { this.courseId = courseId; }
 
-    public int getImageResId() {
-        return imageResId;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public void setImageResId(int imageResId) {
-        this.imageResId = imageResId;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public String getDescription() {
-        return description;
-    }
+    public List<String> getTags() { return tags; }
+    public void setTags(List<String> tags) { this.tags = tags; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public List<String> getCategories() { return categories; }
+    public void setCategories(List<String> categories) { this.categories = categories; }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public boolean isCompleted() {
-        return isCompleted;
-    }
+    public int getImageResId() { return imageResId; }
+    public void setImageUrl(int imageUrl) { this.imageResId = imageUrl; }
 }
+
+
 

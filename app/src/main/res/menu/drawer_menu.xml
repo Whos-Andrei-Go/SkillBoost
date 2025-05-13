@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Modules -->
+    <group android:checkableBehavior="single">
+        <item
+            android:title="Modules"
+            android:icon="@null"
+            android:textAppearance="@style/CustomMenuTextAppearance"/>
+        <item
+            android:id="@+id/module1"
+            android:icon="@drawable/icon_nav_home"
+            android:title="Module I." />
+        <item
+            android:id="@+id/module2"
+            android:icon="@drawable/icon_nav_home"
+            android:title="Module II." />
+        <item
+            android:id="@+id/module3"
+            android:icon="@drawable/icon_nav_home"
+            android:title="Module III." />
+        <item
+            android:id="@+id/module4"
+            android:icon="@drawable/icon_nav_home"
+            android:title="Module IV." />
+        <item
+            android:id="@+id/module5"
+            android:icon="@drawable/icon_nav_home"
+            android:title="Module V." />
+    </group>
+
+    <!-- Exam -->
+    <item
+        android:title="Module Exam"
+        android:icon="@null"
+        android:textAppearance="@style/CustomMenuTextAppearance"/>
+    <item
+        android:id="@+id/module_exam"
+        android:icon="@drawable/icon_nav_home"
+        android:title="Module Exam" />
+
+    <!-- Certificate -->
+    <item
+        android:title="Certificate"
+        android:icon="@null"
+        android:textAppearance="@style/CustomMenuTextAppearance"/>
+    <item
+        android:id="@+id/certificate"
+        android:icon="@drawable/icon_nav_home"
+        android:title="Certificate" />
+
+    <!-- About -->
+    <item
+        android:title="Other Info"
+        android:icon="@null"
+        android:textAppearance="@style/CustomMenuTextAppearance"/>
+    <item
+        android:id="@+id/about_module"
+        android:icon="@drawable/icon_nav_home"
+        android:title="About This Module" />
+
+</menu>

@@ -24,6 +24,7 @@ roomKtx = "2.7.1"
 roomRuntime = "2.7.1"
 gradle = "7.0.4"
 
+
 [libraries]
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
