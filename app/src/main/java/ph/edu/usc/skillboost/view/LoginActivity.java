@@ -19,7 +19,6 @@ import ph.edu.usc.skillboost.viewmodel.AuthViewModel;
 public class LoginActivity extends ComponentActivity {
 
     private EditText emailEditText, passwordEditText;
-
     private AuthViewModel authViewModel;
 
     @Override
@@ -57,11 +56,19 @@ public class LoginActivity extends ComponentActivity {
                 return;
             }
 
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                emailEditText.setError("Please enter a valid email address");
+                emailEditText.requestFocus();
+                return;
+            }
+
             if (password.isEmpty()) {
                 passwordEditText.setError("Password is required");
                 passwordEditText.requestFocus();
                 return;
             }
+
+
             authViewModel.login(email, password);
         });
 
