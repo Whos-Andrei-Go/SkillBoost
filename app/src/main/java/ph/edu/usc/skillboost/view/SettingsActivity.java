@@ -197,10 +197,6 @@ public class SettingsActivity extends BaseActivity {
 
         changePassword.setOnClickListener(v -> togglePasswordForm());
 
-        securityPrivacy.setOnClickListener(v -> {
-            Toast.makeText(this, "Security & Privacy Clicked", Toast.LENGTH_SHORT).show();
-            // startActivity(new Intent(this, SecurityPrivacyActivity.class));
-        });
 
         logout.setOnClickListener(v -> {
             authViewModel.logout(this);
