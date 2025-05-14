@@ -1,12 +1,14 @@
 package ph.edu.usc.skillboost.view;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,10 +25,21 @@ import ph.edu.usc.skillboost.viewmodel.AuthViewModel;
 
 public class ProfileActivity extends BaseActivity {
     LinearLayout moreCourses;
+    ImageView settingsIcon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentLayout(R.layout.activity_profile);
+
+        settingsIcon = findViewById(R.id.settingsIcon);
+
+        settingsIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         RecyclerView coursesView = findViewById(R.id.recycler_courses_completed);
         List<Course> courseList = new ArrayList<>();
