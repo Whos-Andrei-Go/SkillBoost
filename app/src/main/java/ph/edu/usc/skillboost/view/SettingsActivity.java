@@ -1,76 +1,59 @@
 package ph.edu.usc.skillboost.view;
-import android.content.Intent;
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ToggleButton;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import ph.edu.usc.skillboost.R;
-import ph.edu.usc.skillboost.viewmodel.AuthViewModel;
 
-public class SettingsActivity extends BaseActivity{
-    Switch switchPush, switchPromotions, switchUpdates;
-    TextView editProfile, changePassword, securityPrivacy, logout;
-    ImageView backArrow;
-    private AuthViewModel authViewModel;
+public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // Find Views
-        switchPush = findViewById(R.id.switchPush);
-        switchPromotions = findViewById(R.id.switchPromotions);
-        switchUpdates = findViewById(R.id.switchUpdates);
+        ImageView back = findViewById(R.id.back);
+        TextView editProfile = findViewById(R.id.edit_profile);
+        TextView changePassword = findViewById(R.id.change_password);
+        TextView securityPrivacy = findViewById(R.id.security_privacy);
+        Switch pushNotifications = findViewById(R.id.push_notifications);
+        Switch promotions = findViewById(R.id.promotions);
+        Switch appUpdates = findViewById(R.id.app_updates);
+        TextView logout = findViewById(R.id.logout);
 
-        editProfile = findViewById(R.id.editProfile);
-        changePassword = findViewById(R.id.changePassword);
-        securityPrivacy = findViewById(R.id.securityPrivacy);
-        logout = findViewById(R.id.logout);
-        backArrow = findViewById(R.id.backArrow);
-        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        back.setOnClickListener(v -> onBackPressed());
 
         editProfile.setOnClickListener(v -> {
-            Toast.makeText(this, "Edit Profile Clicked", Toast.LENGTH_SHORT).show();
-            // startActivity(new Intent(this, EditProfileActivity.class));
+            // Navigate to Edit Profile
         });
 
         changePassword.setOnClickListener(v -> {
-            Toast.makeText(this, "Change Password Clicked", Toast.LENGTH_SHORT).show();
-            // startActivity(new Intent(this, ChangePasswordActivity.class));
+            // Navigate to Change Password
         });
 
         securityPrivacy.setOnClickListener(v -> {
-            Toast.makeText(this, "Security & Privacy Clicked", Toast.LENGTH_SHORT).show();
-            // startActivity(new Intent(this, SecurityPrivacyActivity.class));
+            // Navigate to Security & Privacy
+        });
+
+        pushNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // Handle push notification toggle
+        });
+
+        promotions.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // Handle promotions toggle
+        });
+
+        appUpdates.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // Handle app updates toggle
         });
 
         logout.setOnClickListener(v -> {
-            authViewModel.logout(this);
-
-            Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        });
-
-
-        // Switch Change Listeners
-        switchPush.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Toast.makeText(this, "Push Notifications " + (isChecked ? "Enabled" : "Disabled"), Toast.LENGTH_SHORT).show();
-        });
-
-        switchPromotions.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Toast.makeText(this, "Promotions " + (isChecked ? "Enabled" : "Disabled"), Toast.LENGTH_SHORT).show();
-        });
-
-        switchUpdates.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Toast.makeText(this, "App Updates " + (isChecked ? "Enabled" : "Disabled"), Toast.LENGTH_SHORT).show();
+            // Handle logout
         });
     }
 }

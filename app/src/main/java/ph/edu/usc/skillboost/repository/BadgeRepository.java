@@ -30,7 +30,7 @@ public class BadgeRepository {
 
     public LiveData<Boolean> addBadge(Badge badge) {
         MutableLiveData<Boolean> result = new MutableLiveData<>();
-        badgeRef.document(badge.getBadgeId()).set(badge)
+        badgeRef.document(badge.getBadgeId().toString()).set(badge)
                 .addOnSuccessListener(aVoid -> result.setValue(true))
                 .addOnFailureListener(e -> result.setValue(false));
         return result;

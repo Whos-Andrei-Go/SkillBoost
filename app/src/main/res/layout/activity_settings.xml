@@ -1,165 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
-    android:padding="24dp">
+    android:orientation="vertical"
+    android:background="@android:color/black"
+    android:padding="16dp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/arrow_left"
-            android:contentDescription="Back"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Account Settings"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp" />
-
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:id="@+id/back"
+            android:layout_gravity="center"
+            android:src="@drawable/arrow_left" />
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#888888" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/editProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Account Settings"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_marginTop="24dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/edit_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Edit Profile"
-            android:textColor="#FFFFFF"
-            android:paddingVertical="12dp" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.9dp"
-            android:background="#888888" />
+            android:textColor="@android:color/white"
+            android:padding="16dp"
+            android:background="?android:attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/changePassword"
+            android:id="@+id/change_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Change Your Password"
-            android:textColor="#FFFFFF"
-            android:paddingVertical="12dp" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#888888" />
+            android:textColor="@android:color/white"
+            android:padding="16dp"
+            android:background="?android:attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/securityPrivacy"
+            android:id="@+id/security_privacy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Security and Privacy"
-            android:textColor="#FFFFFF"
-            android:paddingVertical="12dp" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1.7dp"
-            android:background="#888888" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Notification Settings"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#888888" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="12dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Push Notifications"
-                android:textColor="#FFFFFF" />
-
-            <Switch
-                android:id="@+id/switchPush"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="12dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Promotions"
-                android:textColor="#FFFFFF" />
-
-            <Switch
-                android:id="@+id/switchPromotions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="12dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="App Updates"
-                android:textColor="#FFFFFF" />
-
-            <Switch
-                android:id="@+id/switchUpdates"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="24dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/logout"
-                android:tint="#FFFFFF"
-                android:layout_marginEnd="8dp" />
-
-            <TextView
-                android:id="@+id/logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Log Out"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
-        </LinearLayout>
-
+            android:text="Security &amp; Privacy"
+            android:textColor="@android:color/white"
+            android:padding="16dp"
+            android:background="?android:attr/selectableItemBackground" />
     </LinearLayout>
-</ScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notification Settings"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_marginTop="24dp"/>
+
+    <Switch
+        android:id="@+id/push_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Push Notifications"
+        android:textColor="@android:color/white" />
+
+    <Switch
+        android:id="@+id/promotions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Promotions"
+        android:textColor="@android:color/white" />
+
+    <Switch
+        android:id="@+id/app_updates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="App Updates"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log Out"
+        android:textColor="@android:color/white"
+        android:padding="16dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_marginTop="32dp"/>
+</LinearLayout>

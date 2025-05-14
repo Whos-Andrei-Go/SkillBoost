@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:padding="24dp"
-    tools:context=".BadgesActivity">
+    tools:context=".view.BadgesActivity">
 
     <TextView
         android:id="@+id/tvTitle"
@@ -40,12 +40,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:hint="Search..."
-            android:paddingStart="16dp"
-            android:textColor="@android:color/white"
-            android:textColorHint="#AAAAAA"
             android:drawableStart="@android:drawable/ic_menu_search"
-            android:inputType="text" />
+            android:hint="Search..."
+            android:inputType="text"
+            android:paddingStart="16dp"
+            android:textColor="@color/black"
+            android:textColorHint="#AAAAAA" />
     </androidx.cardview.widget.CardView>
 
     <HorizontalScrollView
