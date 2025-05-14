@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import ph.edu.usc.skillboost.model.Badge;
@@ -136,9 +138,9 @@ public class BadgesActivity extends BaseActivity {
 
     private List<Badge> getSampleBadges() {
         List<Badge> list = new ArrayList<>();
-        list.add(new Badge(1, "Java Basics", "Completed in 2023", R.drawable.sample_certificate2, "Your Awards"));
-        list.add(new Badge(2, "Android Advanced", "Completed in 2024", R.drawable.sample_certificate2, "Top Awards"));
-        list.add(new Badge(3, "Kotlin Mastery", "Completed in 2025", R.drawable.sample_certificate2, "More Awards"));
+        list.add(new Badge("1", "Java Basics", "Completed in 2023", "sample_certificate2", Arrays.asList("Your Awards")));
+        list.add(new Badge("2", "Android Advanced", "Completed in 2024", "sample_certificate2", Arrays.asList("Top Awards")));
+        list.add(new Badge("3", "Kotlin Mastery", "Completed in 2025", "sample_certificate2", Arrays.asList("More Awards")));
         return list;
     }
 }

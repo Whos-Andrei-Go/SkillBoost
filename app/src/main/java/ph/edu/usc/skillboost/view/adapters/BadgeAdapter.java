@@ -15,6 +15,7 @@ import java.util.List;
 
 import ph.edu.usc.skillboost.model.Badge;
 import ph.edu.usc.skillboost.R;
+import ph.edu.usc.skillboost.utils.Utilities;
 
 public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHolder> {
     private List<Badge> badgeList;
@@ -39,7 +40,10 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
         Badge badge = badgeList.get(position);
         holder.tvTitle.setText(badge.getTitle());
         holder.tvDesc.setText(badge.getDescription());
-        holder.image.setImageResource(badge.getImageRes());
+        holder.image.setImageResource(Utilities.getDrawableFromRes(
+            context,
+            badge.getImageRes()
+        ));
     }
 
     @Override
@@ -53,7 +57,7 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
 
         for (Badge badge : allBadges) {
             boolean matchesKeyword = badge.getTitle().toLowerCase().contains(keyword.toLowerCase());
-            boolean matchesCategory = category.equals("All") || badge.getCategory().equals(category);  // Add your category logic here
+            boolean matchesCategory = category.equals("All") || badge.getCategories().contains(category);  // Add your category logic here
 
             if (matchesKeyword && matchesCategory) {
                 filteredBadges.add(badge);

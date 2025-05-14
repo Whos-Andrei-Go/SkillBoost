@@ -11,10 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.model.Course;
+import ph.edu.usc.skillboost.utils.Utilities;
 import ph.edu.usc.skillboost.view.CourseDetailsActivity;
 
 public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -23,12 +25,14 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         SMALL, MEDIUM, LARGE
     }
     private List<Course> courseList;
+    private List<Course> allCourses;
     private CardSize cardSize;
     private Context context;
     private String source;
 
     public CourseAdapter(Context context, List<Course> courseList, CardSize cardSize, String source) {
         this.courseList = courseList;
+        this.allCourses = new ArrayList<>(courseList);
         this.cardSize = cardSize;
         this.context = context;
         this.source = source;
@@ -71,14 +75,6 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    //    @Override
-//    public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
-//        Course course = courseList.get(position);
-//        holder.title.setText(course.getTitle());
-//        holder.description.setText(course.getDescription());
-//        holder.image.setImageResource(course.getImageResId());
-//    }
-    // temporary route
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Course course = courseList.get(position);
@@ -87,11 +83,11 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             // Set course details (title, description, etc.)
             CourseViewHolder courseHolder = (CourseViewHolder) holder;
             courseHolder.title.setText(course.getTitle());
-            courseHolder.description.setText(course.getDescription());
-            courseHolder.image.setImageResource(course.getImageResId());
+            courseHolder.subtitle.setText(course.getSubtitle());
+            courseHolder.image.setImageResource(Utilities.getDrawableFromRes(context, course.getImageRes()));
         } else if (holder instanceof CompletedCourseViewHolder) {
             CompletedCourseViewHolder courseHolder = (CompletedCourseViewHolder) holder;
-            courseHolder.image.setImageResource(course.getImageResId());
+            courseHolder.image.setImageResource(Utilities.getDrawableFromRes(context, course.getImageRes()));
         }
 
         // Set onClickListener to route to CourseDetailsActivity
@@ -107,14 +103,29 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return courseList.size();
     }
 
+    public void filter(String query) {
+        courseList.clear();
+        if (query.isEmpty()) {
+            courseList.addAll(allCourses); // If query is empty, restore the original list
+        } else {
+            for (Course course : allCourses) {
+                if (course.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                    courseList.add(course);
+                }
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
     static class CourseViewHolder extends RecyclerView.ViewHolder {
-        TextView title, description;
+        TextView title, subtitle;
         ImageView image;
 
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.text_course_title);
-            description = itemView.findViewById(R.id.text_course_desc);
+            subtitle = itemView.findViewById(R.id.text_course_subtitle);
             image = itemView.findViewById(R.id.image_course);
         }
     }

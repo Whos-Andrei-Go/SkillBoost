@@ -32,7 +32,7 @@ public class BadgeRepository {
     public LiveData<Boolean> addBadge(Badge badge) {
         MutableLiveData<Boolean> result = new MutableLiveData<>();
         // Convert the badgeID (int) to a String before passing it to document()
-        badgeRef.document(String.valueOf(badge.getBadgeID()))
+        badgeRef.document(String.valueOf(badge.getBadgeId()))
                 .set(badge)
                 .addOnSuccessListener(aVoid -> result.setValue(true))
                 .addOnFailureListener(e -> result.setValue(false));

@@ -32,7 +32,6 @@ public class CoursesActivity extends BaseActivity {
     RecyclerView recyclerView;
     ImageView back, bookmark;
     EditText searchBar;
-    List<Course> courseList;
     private CourseViewModel courseViewModel;
     CourseAdapter courseAdapter;
 
@@ -110,17 +109,6 @@ public class CoursesActivity extends BaseActivity {
         filterRecycler = findViewById(R.id.filterRecycler);
         recyclerView = findViewById(R.id.recycler_view_courses);
         searchBar = findViewById(R.id.search_bar);
-    }
-
-    private void filterCourses(String query) {
-        List<Course> filteredCourses = new ArrayList<>();
-        for (Course course : courseList) {
-            if (course.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                    course.getDescription().toLowerCase().contains(query.toLowerCase())) {
-                filteredCourses.add(course);
-            }
-        }
-        courseAdapter.updateCourseList(filteredCourses);
     }
 
     private void updateCourseList(List<Course> courses) {
