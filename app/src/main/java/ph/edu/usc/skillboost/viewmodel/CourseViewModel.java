@@ -15,6 +15,7 @@ public class CourseViewModel extends ViewModel {
     private final CourseRepository repository;
     private final MutableLiveData<List<Course>> allCourses;
     private final MutableLiveData<Boolean> operationStatus;
+    private final MutableLiveData<Course> singleCourse = new MutableLiveData<>();
 
     public CourseViewModel() {
         repository = new CourseRepository();
@@ -30,6 +31,8 @@ public class CourseViewModel extends ViewModel {
     public LiveData<Boolean> getOperationStatus() {
         return operationStatus;
     }
+    public LiveData<Course> getCourse() { return singleCourse; }
+
 
     public void fetchCourses() {
         repository.getAllCourses().observeForever(courses -> allCourses.setValue(courses));
@@ -41,6 +44,10 @@ public class CourseViewModel extends ViewModel {
 
     public void updateCourse(Course course) {
         repository.updateCourse(course).observeForever(operationStatus::setValue);
+    }
+
+    public void fetchCourse(String courseId) {
+        repository.getCourseById(courseId).observeForever(singleCourse::setValue);
     }
 
     public void deleteCourse(String courseId) {

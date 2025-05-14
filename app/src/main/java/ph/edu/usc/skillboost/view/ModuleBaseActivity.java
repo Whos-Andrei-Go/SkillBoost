@@ -32,7 +32,9 @@ public class ModuleBaseActivity extends AppCompatActivity {
         // Back button
         ImageView backButton = header.findViewById(R.id.back);
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, CourseDetailsActivity.class); // Replace with your Course Details activity
+            Intent intent = new Intent(this, CourseDetailsActivity.class);
+            intent.putExtra("courseId", getIntent().getStringExtra("courseId"));
+            intent.putExtra("source", getIntent().getStringExtra("source"));
             startActivity(intent);
         });
 

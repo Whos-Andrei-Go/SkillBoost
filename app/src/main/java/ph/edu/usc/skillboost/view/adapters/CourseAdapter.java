@@ -94,6 +94,7 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         // Set onClickListener to route to CourseDetailsActivity
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, CourseDetailsActivity.class);
+            intent.putExtra("courseId", course.getCourseId());
             intent.putExtra("source", source); // Pass the origin
             context.startActivity(intent);
         });
