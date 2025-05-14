@@ -2,6 +2,7 @@ package ph.edu.usc.skillboost.view.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,7 +110,25 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             courseList.addAll(allCourses); // If query is empty, restore the original list
         } else {
             for (Course course : allCourses) {
-                if (course.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                if (course.getTitle().toLowerCase().startsWith(query.toLowerCase())) {
+                    courseList.add(course);
+                }
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
+    public void filterByCategory(String category) {
+        category = category.toLowerCase();
+
+        courseList.clear();
+        if (category.isEmpty() || category.equals("all")) {
+            courseList.addAll(allCourses); // If query is empty, restore the original list
+        } else {
+            for (Course course : allCourses) {
+                List<String> categories = course.getCategories();
+                if (categories.stream().map(String::toLowerCase).anyMatch(category::equals)) {
                     courseList.add(course);
                 }
             }
@@ -144,8 +163,14 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return Math.round(dp * density);
     }
 
-    public void updateCourseList(List<Course> filteredCourses) {
-        this.courseList = filteredCourses;
+    public void updateCourseList(List<Course> newCourses) {
+        courseList.clear();
+        courseList.addAll(newCourses);
+
+        if (allCourses.isEmpty()){
+            allCourses.addAll(newCourses); // Add all courses at the start
+        }
+
         notifyDataSetChanged();
     }
 }

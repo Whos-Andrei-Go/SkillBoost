@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,18 +17,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ph.edu.usc.skillboost.model.Badge;
 import ph.edu.usc.skillboost.model.Course;
 import ph.edu.usc.skillboost.view.adapters.FilterAdapter;
 import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.view.adapters.CourseAdapter;
-import ph.edu.usc.skillboost.viewmodel.BadgeViewModel;
 import ph.edu.usc.skillboost.viewmodel.CourseViewModel;
 
 public class CoursesActivity extends BaseActivity {
 
     RecyclerView filterRecycler;
-    RecyclerView recyclerView;
+    RecyclerView recyclerCourses;
     ImageView back, bookmark;
     EditText searchBar;
     private CourseViewModel courseViewModel;
@@ -46,15 +43,14 @@ public class CoursesActivity extends BaseActivity {
         courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
 
         courseAdapter = new CourseAdapter(this, new ArrayList<>(), CourseAdapter.CardSize.LARGE, "courses");
-        recyclerView.setLayoutManager(new LinearLayoutManager(CoursesActivity.this));
-        recyclerView.setAdapter(courseAdapter);
+        recyclerCourses.setLayoutManager(new LinearLayoutManager(CoursesActivity.this));
+        recyclerCourses.setAdapter(courseAdapter);
 
         courseViewModel.getAllCourses().observe(this, this::updateCourseList);
         List<String> filters = Arrays.asList("All", "Top Courses", "Recommended", "Recently Added", "Other");
 
         FilterAdapter filterAdapter = new FilterAdapter(filters, filter -> {
-            // TODO: Handle filter click - update RecyclerView contents, etc.
-            Toast.makeText(this, "Selected: " + filter, Toast.LENGTH_SHORT).show();
+            courseAdapter.filterByCategory(filter);
         });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -107,7 +103,7 @@ public class CoursesActivity extends BaseActivity {
         back = findViewById(R.id.back);
         bookmark = findViewById(R.id.savedCourses);
         filterRecycler = findViewById(R.id.filterRecycler);
-        recyclerView = findViewById(R.id.recycler_view_courses);
+        recyclerCourses = findViewById(R.id.recycler_view_courses);
         searchBar = findViewById(R.id.search_bar);
     }
 

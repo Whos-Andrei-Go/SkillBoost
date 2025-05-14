@@ -56,7 +56,7 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
         List<Badge> filteredBadges = new ArrayList<>();
 
         for (Badge badge : allBadges) {
-            boolean matchesKeyword = badge.getTitle().toLowerCase().contains(keyword.toLowerCase());
+            boolean matchesKeyword = badge.getTitle().toLowerCase().startsWith(keyword.toLowerCase());
             boolean matchesCategory = category.equals("All") || badge.getCategories().contains(category);  // Add your category logic here
 
             if (matchesKeyword && matchesCategory) {
@@ -68,8 +68,14 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
     }
 
     // Method to update the badge list
-    public void updateBadgeList(List<Badge> filteredBadges) {
-        this.badgeList = filteredBadges;
+    public void updateBadgeList(List<Badge> newBadges) {
+        badgeList.clear();
+        badgeList.addAll(newBadges);
+
+        if (allBadges.isEmpty()){
+            allBadges.addAll(newBadges); // Add all badges at the start
+        }
+
         notifyDataSetChanged();
     }
 
