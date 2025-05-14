@@ -51,6 +51,41 @@ public class SettingsActivity extends BaseActivity {
         backArrow = findViewById(R.id.backArrow);
         passwordChangeForm = findViewById(R.id.passwordChangeForm);
 
+        TextView securityPrivacyHeader = findViewById(R.id.securityPrivacy);
+        final LinearLayout securityPrivacyContent = findViewById(R.id.securityPrivacyContent);
+        TextView permissionsManagement = findViewById(R.id.permissionsManagement);
+        TextView dataCollectionPrefs = findViewById(R.id.dataCollectionPrefs);
+        TextView deleteAccount = findViewById(R.id.deleteAccount);
+
+        permissionsManagement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle Permissions Management click
+            }
+        });
+
+        dataCollectionPrefs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle Data Collection Preferences click
+            }
+        });
+
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle Delete Account click
+            }
+        });
+
+
+        securityPrivacyHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleSecurityPrivacySection(securityPrivacyContent);
+            }
+        });
+
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
     }
 
@@ -61,6 +96,32 @@ public class SettingsActivity extends BaseActivity {
         Button btnUpdatePassword = findViewById(R.id.btnUpdatePassword);
         btnUpdatePassword.setOnClickListener(v -> validateAndChangePassword());
     }
+
+    private void toggleSecurityPrivacySection(final LinearLayout content) {
+        if (content.getVisibility() == View.VISIBLE) {
+            // Collapse with slide-up animation
+            Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+            slideUp.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {}
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    content.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            });
+            content.startAnimation(slideUp);
+        } else {
+            // Expand with slide-down animation
+            content.setVisibility(View.VISIBLE);
+            Animation slideDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+            content.startAnimation(slideDown);
+        }
+    }
+
 
     private void validateAndChangePassword() {
         EditText currentPassword = findViewById(R.id.currentPassword);
