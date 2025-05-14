@@ -42,7 +42,7 @@ public class CoursesActivity extends BaseActivity {
         courseList.add(new Course("2", "Advanced Java", "Deep dive into OOP", new ArrayList<>(), new ArrayList<>(), R.drawable.course2));
         courseList.add(new Course("3", "UI/UX Design", "Design modern interfaces", new ArrayList<>(), new ArrayList<>(), R.drawable.course1));
 
-        adapter = new CourseAdapter(this, courseList, CourseAdapter.CardSize.LARGE);
+        adapter = new CourseAdapter(this, courseList, CourseAdapter.CardSize.LARGE, "courses");
         recyclerView.setLayoutManager(new LinearLayoutManager(CoursesActivity.this));
         recyclerView.setAdapter(adapter);
 

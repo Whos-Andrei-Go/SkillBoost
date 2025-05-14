@@ -1,6 +1,10 @@
 package ph.edu.usc.skillboost.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +26,8 @@ public class CourseDetailsActivity extends AppCompatActivity {
     RecyclerView recyclerViewModules;
     List<Module> moduleList;
     ModuleAdapter moduleAdapter;
+    Button startCourse;
+    ImageView back;
 
 
     @Override
@@ -49,5 +55,27 @@ public class CourseDetailsActivity extends AppCompatActivity {
         moduleAdapter = new ModuleAdapter(this, moduleList);
         recyclerViewModules.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewModules.setAdapter(moduleAdapter);
+
+        back = findViewById(R.id.back);
+        String source = getIntent().getStringExtra("source");
+
+        back.setOnClickListener(v -> {
+            if ("home".equals(source)) {
+                startActivity(new Intent(CourseDetailsActivity.this, HomepageActivity.class));
+            } else{
+                startActivity(new Intent(CourseDetailsActivity.this, CoursesActivity.class));
+            }
+        });
+
+
+        startCourse = findViewById(R.id.start_course);
+        startCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CourseDetailsActivity.this, CourseContentActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
