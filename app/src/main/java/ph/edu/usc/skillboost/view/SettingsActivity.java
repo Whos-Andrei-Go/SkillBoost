@@ -1,7 +1,10 @@
 package ph.edu.usc.skillboost.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -12,7 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.provider.Settings;
+import android.content.ComponentName;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -37,6 +43,7 @@ public class SettingsActivity extends BaseActivity {
         setupPasswordChangeForm();
         setupClickListeners();
         setupSwitchListeners();
+
     }
 
     private void initViews() {
@@ -54,20 +61,35 @@ public class SettingsActivity extends BaseActivity {
         TextView securityPrivacyHeader = findViewById(R.id.securityPrivacy);
         final LinearLayout securityPrivacyContent = findViewById(R.id.securityPrivacyContent);
         TextView permissionsManagement = findViewById(R.id.permissionsManagement);
-        TextView dataCollectionPrefs = findViewById(R.id.dataCollectionPrefs);
         TextView deleteAccount = findViewById(R.id.deleteAccount);
+        TextView dataCollectionPrefs = findViewById(R.id.dataCollectionPrefs);
+        dataCollectionPrefs.setOnClickListener(v -> showDataCollectionDialog());
 
         permissionsManagement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle Permissions Management click
+                try {
+                    // Intent to open app's specific permission settings
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    intent.setData(Uri.fromParts("package", getPackageName(), null));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    // Fallback to general app settings if specific intent fails
+                    try {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_SETTINGS);
+                        startActivity(intent);
+                    } catch (Exception ex) {
+                        Toast.makeText(SettingsActivity.this,
+                                "Could not open settings", Toast.LENGTH_SHORT).show();
+                        Log.e("SettingsActivity", "Failed to open settings", ex);
+                    }
+                }
             }
         });
-
         dataCollectionPrefs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle Data Collection Preferences click
+                showDataCollectionDialog();
             }
         });
 
@@ -89,6 +111,50 @@ public class SettingsActivity extends BaseActivity {
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
     }
 
+    private void showDataCollectionDialog() {
+        // Inflate the custom dialog layout
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_data_collection, null);
+
+        // Initialize switches from the dialog
+        Switch switchAnalytics = dialogView.findViewById(R.id.switchAnalytics);
+        Switch switchCrashReports = dialogView.findViewById(R.id.switchCrashReports);
+        Switch switchPersonalization = dialogView.findViewById(R.id.switchPersonalization);
+
+        // Load current preferences (you need to implement this)
+        boolean analyticsEnabled = loadPreference("analytics_enabled", true);
+        boolean crashReportsEnabled = loadPreference("crash_reports_enabled", true);
+        boolean personalizationEnabled = loadPreference("personalization_enabled", true);
+
+        // Set current states
+        switchAnalytics.setChecked(analyticsEnabled);
+        switchCrashReports.setChecked(crashReportsEnabled);
+        switchPersonalization.setChecked(personalizationEnabled);
+
+        // Build the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Data Collection Preferences")
+                .setView(dialogView)
+                .setPositiveButton("Save", (dialog, which) -> {
+                    // Save preferences when user clicks "Save"
+                    savePreference("analytics_enabled", switchAnalytics.isChecked());
+                    savePreference("crash_reports_enabled", switchCrashReports.isChecked());
+                    savePreference("personalization_enabled", switchPersonalization.isChecked());
+                    Toast.makeText(this, "Preferences saved", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+    // Save a boolean preference (e.g., using SharedPreferences)
+    private void savePreference(String key, boolean value) {
+        SharedPreferences prefs = getSharedPreferences("DataCollectionPrefs", MODE_PRIVATE);
+        prefs.edit().putBoolean(key, value).apply();
+    }
+
+    // Load a boolean preference (default to true if not set)
+    private boolean loadPreference(String key, boolean defaultValue) {
+        SharedPreferences prefs = getSharedPreferences("DataCollectionPrefs", MODE_PRIVATE);
+        return prefs.getBoolean(key, defaultValue);
+    }
     private void setupPasswordChangeForm() {
         // Initially hide the password change form
         passwordChangeForm.setVisibility(View.GONE);
