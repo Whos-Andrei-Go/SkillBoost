@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ph.edu.usc.skillboost.repository.BadgeRepository;
 import ph.edu.usc.skillboost.view.adapters.BadgeAdapter;
 import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.model.Badge;
@@ -47,14 +46,13 @@ public class BadgesActivity extends BaseActivity {
     }
 
     private void updateBadgeList(List<Badge> badges) {
-        badgeAdapter.updateBadges(badges);
+        badgeAdapter.updateBadgeList(badges);
     }
-
 
     private List<Badge> getSampleBadges() {
         List<Badge> list = new ArrayList<>();
-        list.add(new Badge(1, "Java Basics", "Completed in 2023", "sample_certificate2"));
-        list.add(new Badge(2, "Android Advanced", "Completed in 2024", "sample_certificate2"));
+        list.add(new Badge("badge_1", "Java Basics", "Completed in 2023", "sample_certificate2"));
+        list.add(new Badge("badge_2", "Android Advanced", "Completed in 2024", "sample_certificate2"));
         return list;
     }
 
@@ -73,7 +71,6 @@ public class BadgesActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d("BadgesActivity", "Search Query: " + s.toString());
                 badgeAdapter.filter(s.toString());
             }
 

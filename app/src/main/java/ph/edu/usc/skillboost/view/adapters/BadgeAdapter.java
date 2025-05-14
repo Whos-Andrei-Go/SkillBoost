@@ -58,7 +58,7 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
         return badgeList.size();
     }
 
-    public void updateBadges(List<Badge> newBadges) {
+    public void updateBadgeList(List<Badge> newBadges) {
         badgeList.clear();
         badgeList.addAll(newBadges);
 
