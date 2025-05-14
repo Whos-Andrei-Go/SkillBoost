@@ -4,100 +4,141 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ph.edu.usc.skillboost.view.adapters.BadgeAdapter;
-import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.model.Badge;
-import ph.edu.usc.skillboost.viewmodel.BadgeViewModel;
-import android.util.Log;
+import ph.edu.usc.skillboost.R;
+import ph.edu.usc.skillboost.view.adapters.BadgeAdapter;
+import ph.edu.usc.skillboost.view.adapters.FilterAdapter;
 
 public class BadgesActivity extends BaseActivity {
 
-    private EditText etSearch;
-    private RecyclerView rvCertificates;
-    private TextView tabYourAwards, tabTopAwards, tabMoreAwards;
-    private BadgeViewModel badgeViewModel;
+    private EditText searchBar;
+    private RecyclerView badgeRecycler, filterRecycler;
     private BadgeAdapter badgeAdapter;
+    private FilterAdapter filterAdapter;
+    private ImageView backBtn, bookmarkedBtn;
+    private List<Badge> allBadges;
+    private List<Badge> filteredBadges;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentLayout(R.layout.activity_badges);
 
         initViews();
-        setupListeners();
+        setupRecyclerViews();
+        setupSearch();
+        setupFilter();
 
-        badgeViewModel = new ViewModelProvider(this).get(BadgeViewModel.class);
-
-        rvCertificates.setLayoutManager(new LinearLayoutManager(this));
-        badgeAdapter = new BadgeAdapter(this, new ArrayList<>());
-        rvCertificates.setAdapter(badgeAdapter);
-
-        badgeViewModel.getAllBadges().observe(this, this::updateBadgeList);
+        backBtn.setOnClickListener(v -> finish());
+        bookmarkedBtn.setOnClickListener(v -> {
+            // TODO: Navigate to bookmarked badges
+        });
     }
 
-    private void updateBadgeList(List<Badge> badges) {
-        badgeAdapter.updateBadgeList(badges);
+    private void initViews() {
+        searchBar = findViewById(R.id.search_bar);
+        badgeRecycler = findViewById(R.id.recycler_view_badges);
+        filterRecycler = findViewById(R.id.filterRecycler);
+        backBtn = findViewById(R.id.back);
+        bookmarkedBtn = findViewById(R.id.bookmarked);
+    }
+
+    private void setupRecyclerViews() {
+        // Set up RecyclerView for badges
+        badgeRecycler.setLayoutManager(new LinearLayoutManager(this));
+        allBadges = getSampleBadges();  // Get all available badges
+        filteredBadges = new ArrayList<>(allBadges); // Initialize filtered badges with all badges initially
+        badgeAdapter = new BadgeAdapter(this, filteredBadges);
+        badgeRecycler.setAdapter(badgeAdapter);
+
+        // Set up RecyclerView for filters (horizontal)
+        filterRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        filterAdapter = new FilterAdapter(getFilterList(), filter -> {
+            Toast.makeText(this, "Selected: " + filter, Toast.LENGTH_SHORT).show();
+            applyFilter(filter);  // Apply selected filter to badges
+        });
+        filterRecycler.setAdapter(filterAdapter);
+    }
+
+    private void setupSearch() {
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //badgeAdapter.filter(s.toString());
+            }
+        });
+    }
+
+    private void setupFilter() {
+        // Filters are already handled by the FilterAdapter in the horizontal RecyclerView
+    }
+
+    private List<String> getFilterList() {
+        List<String> filters = new ArrayList<>();
+        filters.add("Your Awards");
+        filters.add("Top Awards");
+        filters.add("More Awards");
+        return filters;
+    }
+
+    private void applyFilter(String filter) {
+        List<Badge> filteredList = new ArrayList<>();
+
+        // Apply different filter logic based on the selected filter option
+        switch (filter) {
+            case "Your Awards":
+                // Example filter: Show badges earned by the user (this logic should be customized)
+                filteredList.addAll(filterYourAwards());
+                break;
+            case "Top Awards":
+                // Example filter: Show only "Top" badges (custom logic needed)
+                filteredList.addAll(filterTopAwards());
+                break;
+            case "More Awards":
+                // Example filter: Show more awards (custom logic needed)
+                filteredList.addAll(filterMoreAwards());
+                break;
+            default:
+                filteredList.addAll(allBadges);  // Default is to show all badges
+        }
+
+        filteredBadges = filteredList;  // Update the filtered list
+        badgeAdapter.updateBadgeList(filteredBadges);  // Update the adapter with new filtered badges
+    }
+
+    private List<Badge> filterYourAwards() {
+        // Custom logic to filter "Your Awards" based on user criteria
+        // Example: returning all badges in this case
+        return allBadges;
+    }
+
+    private List<Badge> filterTopAwards() {
+        // Custom logic to filter "Top Awards"
+        // Example: returning all badges in this case
+        return allBadges;
+    }
+
+    private List<Badge> filterMoreAwards() {
+        // Custom logic to filter "More Awards"
+        // Example: returning all badges in this case
+        return allBadges;
     }
 
     private List<Badge> getSampleBadges() {
         List<Badge> list = new ArrayList<>();
-        list.add(new Badge("badge_1", "Java Basics", "Completed in 2023", "sample_certificate2"));
-        list.add(new Badge("badge_2", "Android Advanced", "Completed in 2024", "sample_certificate2"));
+        list.add(new Badge(1, "Java Basics", "Completed in 2023", R.drawable.sample_certificate2, "Your Awards"));
+        list.add(new Badge(2, "Android Advanced", "Completed in 2024", R.drawable.sample_certificate2, "Top Awards"));
+        list.add(new Badge(3, "Kotlin Mastery", "Completed in 2025", R.drawable.sample_certificate2, "More Awards"));
         return list;
-    }
-
-    private void initViews() {
-        etSearch = findViewById(R.id.etSearch);
-        rvCertificates = findViewById(R.id.rvCertificates);
-        tabYourAwards = findViewById(R.id.tabYourAwards);
-        tabTopAwards = findViewById(R.id.tabTopAwards);
-        tabMoreAwards = findViewById(R.id.tabMoreAwards);
-    }
-
-    private void setupListeners() {
-        etSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                badgeAdapter.filter(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-        tabYourAwards.setOnClickListener(v -> {
-            highlightTab(tabYourAwards);
-            // Load or filter "Your Awards"
-        });
-
-        tabTopAwards.setOnClickListener(v -> {
-            highlightTab(tabTopAwards);
-            // Load or filter "Top Awards"
-        });
-
-        tabMoreAwards.setOnClickListener(v -> {
-            highlightTab(tabMoreAwards);
-            // Load or filter "More Awards"
-        });
-    }
-
-    private void highlightTab(TextView selectedTab) {
-        tabYourAwards.setTextColor(getResources().getColor(android.R.color.darker_gray));
-        tabTopAwards.setTextColor(getResources().getColor(android.R.color.darker_gray));
-        tabMoreAwards.setTextColor(getResources().getColor(android.R.color.darker_gray));
-        selectedTab.setTextColor(getResources().getColor(android.R.color.white));
     }
 }

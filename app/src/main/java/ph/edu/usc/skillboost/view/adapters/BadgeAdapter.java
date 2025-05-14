@@ -1,7 +1,6 @@
 package ph.edu.usc.skillboost.view.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,39 +17,29 @@ import ph.edu.usc.skillboost.model.Badge;
 import ph.edu.usc.skillboost.R;
 
 public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHolder> {
-
     private List<Badge> badgeList;
-    private final List<Badge> fullBadgeList;
-    private final Context context;
+    private List<Badge> allBadges;  // Save the original list of badges
+    private Context context;
 
     public BadgeAdapter(Context context, List<Badge> badgeList) {
-        this.badgeList = badgeList;
-        this.fullBadgeList = new ArrayList<>(badgeList);
         this.context = context;
+        this.badgeList = badgeList;
+        this.allBadges = new ArrayList<>(badgeList);  // Keep a copy of the original list
     }
 
     @NonNull
     @Override
     public BadgeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_certificate, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_certificate, parent, false);
         return new BadgeViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BadgeViewHolder holder, int position) {
         Badge badge = badgeList.get(position);
-        holder.title.setText(badge.getName());
-        holder.description.setText(badge.getDescription());
-
-        String imageResName = badge.getImageUrl(); // Assume this is the name of the image file (e.g., "sample_certificate2")
-
-        int imageResId = context.getResources().getIdentifier(imageResName, "drawable", context.getPackageName());
-
-        if (imageResId == 0) {
-            imageResId = R.drawable.sample_certificate2;
-        }
-        holder.image.setImageResource(imageResId);
+        holder.tvTitle.setText(badge.getTitle());
+        holder.tvDesc.setText(badge.getDescription());
+        holder.image.setImageResource(badge.getImageRes());
     }
 
     @Override
@@ -58,42 +47,37 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
         return badgeList.size();
     }
 
-    public void updateBadgeList(List<Badge> newBadges) {
-        badgeList.clear();
-        badgeList.addAll(newBadges);
+    // Method to filter by keyword and category
+    public void filter(String keyword, String category) {
+        List<Badge> filteredBadges = new ArrayList<>();
 
-        if (fullBadgeList.isEmpty()){
-            fullBadgeList.addAll(newBadges); // Add all badges at the start
-        }
+        for (Badge badge : allBadges) {
+            boolean matchesKeyword = badge.getTitle().toLowerCase().contains(keyword.toLowerCase());
+            boolean matchesCategory = category.equals("All") || badge.getCategory().equals(category);  // Add your category logic here
 
-        notifyDataSetChanged();
-    }
-
-    public void filter(String query) {
-        badgeList.clear();
-        if (query.isEmpty()) {
-            badgeList.addAll(fullBadgeList); // If query is empty, restore the original list
-        } else {
-            for (Badge badge : fullBadgeList) {
-                Log.d("BadgeAdapter", "Filtered Badge: " + badge.getName());
-                if (badge.getName().toLowerCase().contains(query.toLowerCase())) {
-                    badgeList.add(badge);
-                }
+            if (matchesKeyword && matchesCategory) {
+                filteredBadges.add(badge);
             }
         }
+
+        updateBadgeList(filteredBadges);
+    }
+
+    // Method to update the badge list
+    public void updateBadgeList(List<Badge> filteredBadges) {
+        this.badgeList = filteredBadges;
         notifyDataSetChanged();
     }
 
-    static class BadgeViewHolder extends RecyclerView.ViewHolder {
-        TextView title, description;
+    public static class BadgeViewHolder extends RecyclerView.ViewHolder {
+        TextView tvTitle, tvDesc;
         ImageView image;
 
-        public BadgeViewHolder(@NonNull View itemView) {
+        public BadgeViewHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.tvCertificateTitle);
-            description = itemView.findViewById(R.id.tvCertificateDescription);
-            image = itemView.findViewById(R.id.imgCertificate);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvDesc = itemView.findViewById(R.id.tvDesc);
+            image = itemView.findViewById(R.id.ivBadge);
         }
     }
 }
-
