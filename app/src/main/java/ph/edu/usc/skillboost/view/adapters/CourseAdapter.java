@@ -17,7 +17,7 @@ import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.model.Course;
 import ph.edu.usc.skillboost.view.CourseDetailsActivity;
 
-public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
+public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public enum CardSize {
         SMALL, MEDIUM, LARGE
@@ -36,16 +36,16 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
     @NonNull
     @Override
-    public CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_course, parent, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
         // Set card size dynamically
         int width = ViewGroup.LayoutParams.WRAP_CONTENT;
         int height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
         switch (cardSize) {
             case SMALL:
-                width = dpToPx(parent.getContext(), 160);
-                height = dpToPx(parent.getContext(), 220);
+                width = dpToPx(parent.getContext(), 200);
+                height = dpToPx(parent.getContext(), 180);
                 break;
             case MEDIUM:
                 width = dpToPx(parent.getContext(), 230);
@@ -59,13 +59,19 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
         RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(width, height);
         layoutParams.setMargins(dpToPx(context, 0), dpToPx(context, 0), dpToPx(context, 30), dpToPx(context, 30));
-        view.setLayoutParams(layoutParams);
 
-
-        return new CourseViewHolder(view);
+        if (viewType == 1) {  // Completed course
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_course_completed, parent, false);
+            view.setLayoutParams(layoutParams);
+            return new CompletedCourseViewHolder(view);
+        } else {  // Normal course
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_course, parent, false);
+            view.setLayoutParams(layoutParams);
+            return new CourseViewHolder(view);
+        }
     }
 
-//    @Override
+    //    @Override
 //    public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
 //        Course course = courseList.get(position);
 //        holder.title.setText(course.getTitle());
@@ -74,13 +80,19 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 //    }
     // temporary route
     @Override
-    public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Course course = courseList.get(position);
 
-        // Set course details (title, description, etc.)
-        holder.title.setText(course.getTitle());
-        holder.description.setText(course.getDescription());
-        holder.image.setImageResource(course.getImageResId());
+        if (holder instanceof CourseViewHolder) {
+            // Set course details (title, description, etc.)
+            CourseViewHolder courseHolder = (CourseViewHolder) holder;
+            courseHolder.title.setText(course.getTitle());
+            courseHolder.description.setText(course.getDescription());
+            courseHolder.image.setImageResource(course.getImageResId());
+        } else if (holder instanceof CompletedCourseViewHolder) {
+            CompletedCourseViewHolder courseHolder = (CompletedCourseViewHolder) holder;
+            courseHolder.image.setImageResource(course.getImageResId());
+        }
 
         // Set onClickListener to route to CourseDetailsActivity
         holder.itemView.setOnClickListener(v -> {
@@ -106,6 +118,16 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             image = itemView.findViewById(R.id.image_course);
         }
     }
+
+    static class CompletedCourseViewHolder extends RecyclerView.ViewHolder {
+        ImageView image;
+
+        public CompletedCourseViewHolder(@NonNull View itemView) {
+            super(itemView);
+            image = itemView.findViewById(R.id.image_course);
+        }
+    }
+
     private int dpToPx(android.content.Context context, int dp) {
         float density = context.getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
@@ -116,4 +138,3 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         notifyDataSetChanged();
     }
 }
-
