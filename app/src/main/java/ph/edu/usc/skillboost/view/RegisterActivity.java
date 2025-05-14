@@ -9,8 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.utils.Utilities;
@@ -27,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register); // Make sure this XML is saved as activity_login.xml
+        setContentView(R.layout.activity_register);
         View curView = findViewById(R.id.register);
         Utilities.setViewPadding(curView);
 
@@ -74,18 +77,35 @@ public class RegisterActivity extends AppCompatActivity {
             finish();
         });
 
-        authViewModel.getUserLiveData().observe(this, user -> {
-            if (user != null) {
-                Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, HomepageActivity.class));
-                finish();
+        // Observe error messages and success (email sent)
+        authViewModel.getErrorLiveData().observe(this, error -> {
+            if (error != null) {
+                // Show verification message OR general error
+                if (error.toLowerCase().contains("verification email")) {
+                    new AlertDialog.Builder(this)
+                            .setTitle("Verify Your Email")
+                            .setMessage(error)
+                            .setCancelable(false)
+                            .setPositiveButton("Go to Login", (dialog, which) -> {
+                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                finish();
+                            })
+                            .show();
+                } else {
+                    Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+                }
             }
         });
 
-        authViewModel.getErrorLiveData().observe(this, error -> {
-            if (error != null) {
-                Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+        // Prevent navigating to homepage unless user is already verified (which shouldn't happen here)
+        authViewModel.getUserLiveData().observe(this, user -> {
+            // Optional: Only navigate if user is verified (for safety)
+
+            if (user != null && FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+                startActivity(new Intent(this, HomepageActivity.class));
+                finish();
             }
+
         });
     }
 }
