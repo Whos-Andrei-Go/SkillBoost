@@ -1,9 +1,11 @@
 package ph.edu.usc.skillboost.view.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,7 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ModuleView
 
     private List<Module> moduleList;
     private Context context;
+    private int selectedPosition = RecyclerView.NO_POSITION;
 
     public ModuleAdapter(Context context, List<Module> moduleList) {
         this.context = context;
@@ -37,19 +40,25 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ModuleView
         Module module = moduleList.get(position);
 
         holder.moduleTitle.setText(module.getTitle());
-        holder.moduleDescription.setText(module.getDescription());
+        holder.moduleDescription.setText(module.getContent());
 
-        // Change background color based on selection
-        if (module.isSelected()) {
+        // Show or hide the description based on selection
+        if (position == selectedPosition) {
+            holder.moduleDescription.setVisibility(View.VISIBLE);
+            holder.toggleIndicator.setImageResource(R.drawable.caret_up); // Collapse icon
             holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.selected_background));
         } else {
+            holder.moduleDescription.setVisibility(View.GONE);
+            holder.toggleIndicator.setImageResource(R.drawable.caret_down); // Expand icon
             holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.cardview_light_background));
         }
 
         // Handle click to toggle selection
         holder.itemView.setOnClickListener(v -> {
-            module.toggleSelected();
-            notifyItemChanged(position); // Update the item
+            int previousPosition = selectedPosition;
+            selectedPosition = (selectedPosition == position) ? RecyclerView.NO_POSITION : position; // Toggle selection
+            notifyItemChanged(previousPosition); // Refresh the previously selected item
+            notifyItemChanged(selectedPosition); // Refresh the newly selected item
         });
     }
 
@@ -60,13 +69,15 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ModuleView
 
     static class ModuleViewHolder extends RecyclerView.ViewHolder {
         TextView moduleTitle, moduleDescription;
+        ImageView toggleIndicator;
         CardView cardView;
 
         public ModuleViewHolder(@NonNull View itemView) {
             super(itemView);
             moduleTitle = itemView.findViewById(R.id.module_title);
             moduleDescription = itemView.findViewById(R.id.module_description);
-            cardView = (CardView) itemView;
+            toggleIndicator = itemView.findViewById(R.id.toggle_indicator);
+            cardView = itemView.findViewById(R.id.module_card);
         }
     }
 }

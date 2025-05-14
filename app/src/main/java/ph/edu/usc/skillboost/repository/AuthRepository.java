@@ -57,6 +57,25 @@ public class AuthRepository {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                         if (firebaseUser != null) {
+                            firebaseUser.reload();
+                            if (!firebaseUser.isEmailVerified()) {
+                                firebaseUser.sendEmailVerification()
+                                        .addOnCompleteListener(verifyTask -> {
+                                            if (verifyTask.isSuccessful()) {
+                                                errorLiveData.setValue("Email not verified. A new verification link has been sent.");
+                                            } else {
+                                                errorLiveData.setValue("Email not verified. Failed to resend verification link.");
+                                                Log.e("EMAIL_RESEND_FAILED", "Resend failed", verifyTask.getException());
+                                            }
+
+                                            firebaseAuth.signOut(); // Sign out unverified user
+                                            userLiveData.setValue(null);
+                                        });
+
+                                return; // Skip further processing
+                            }
+
+                            // Proceed to load user profile
                             db.collection("users").document(firebaseUser.getUid())
                                     .get()
                                     .addOnSuccessListener(documentSnapshot -> {
@@ -90,6 +109,7 @@ public class AuthRepository {
                 });
     }
 
+
     public void logout(Context context) {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
@@ -117,6 +137,21 @@ public class AuthRepository {
                             firebaseUser.updateProfile(profileUpdates)
                                     .addOnCompleteListener(profileTask -> {
                                         if (profileTask.isSuccessful()) {
+                                            // Send email verification
+                                            firebaseUser.sendEmailVerification()
+                                                    .addOnCompleteListener(verifyTask -> {
+                                                        if (verifyTask.isSuccessful()) {
+                                                            // Sign out the user until they verify
+                                                            firebaseAuth.signOut();
+                                                            errorLiveData.setValue("Verification email sent. Please check your inbox and verify your email before logging in.");
+                                                            userLiveData.setValue(null);
+                                                        } else {
+                                                            errorLiveData.setValue("Failed to send verification email.");
+                                                            Log.e("EMAIL_VERIFICATION", "Error sending email verification", verifyTask.getException());
+                                                        }
+                                                    });
+
+                                            // Optional: Save basic user data now (or wait until they log in & verify)
                                             String uid = firebaseUser.getUid();
                                             String photoUrl = firebaseUser.getPhotoUrl() != null
                                                     ? firebaseUser.getPhotoUrl().toString()
@@ -126,10 +161,11 @@ public class AuthRepository {
                                                     uid,
                                                     displayName,
                                                     email,
-                                                    "user",
+                                                    "learner",
                                                     "unspecified",
                                                     "",
                                                     0L,
+                                                    new ArrayList<>(),
                                                     new ArrayList<>(),
                                                     new ArrayList<>(),
                                                     System.currentTimeMillis(),
@@ -140,19 +176,19 @@ public class AuthRepository {
                                             db.collection("users").document(uid)
                                                     .set(user)
                                                     .addOnSuccessListener(unused -> {
-                                                        userLiveData.setValue(user);
-                                                        Log.d("AuthRepository", "User registered successfully: " + displayName);
+                                                        Log.d("AuthRepository", "User data stored in Firestore (pending verification): " + displayName);
                                                     })
                                                     .addOnFailureListener(e -> {
-                                                        errorLiveData.setValue("Failed to save user profile: " + e.getMessage());
-                                                        Log.e("REGISTER_FIRESTORE", "Error saving user", e);
+                                                        Log.e("REGISTER_FIRESTORE", "Failed to save user to Firestore", e);
                                                     });
 
                                         } else {
-                                            errorLiveData.setValue("Failed to update profile.");
+                                            errorLiveData.setValue("Failed to update user profile.");
+                                            Log.e("UPDATE_PROFILE", "Failed to set display name", profileTask.getException());
                                         }
                                     });
                         }
+
                     } else {
                         Exception e = task.getException();
                         if (e instanceof FirebaseAuthUserCollisionException) {
@@ -168,6 +204,7 @@ public class AuthRepository {
                     }
                 });
     }
+
 
     public boolean isUserLoggedIn() {
         return firebaseAuth.getCurrentUser() != null;
@@ -204,3 +241,5 @@ public class AuthRepository {
         return resultLiveData;
     }
 }
+
+//

@@ -15,6 +15,8 @@ import java.util.List;
 
 import ph.edu.usc.skillboost.model.Badge;
 import ph.edu.usc.skillboost.R;
+import ph.edu.usc.skillboost.model.Course;
+import ph.edu.usc.skillboost.utils.Utilities;
 
 public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHolder> {
     private List<Badge> badgeList;
@@ -37,9 +39,12 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
     @Override
     public void onBindViewHolder(@NonNull BadgeViewHolder holder, int position) {
         Badge badge = badgeList.get(position);
-        holder.tvTitle.setText(badge.getTitle());
-        holder.tvDesc.setText(badge.getDescription());
-        holder.image.setImageResource(badge.getImageRes());
+        holder.title.setText(badge.getTitle());
+        holder.subtitle.setText(badge.getSubtitle());
+        holder.image.setImageResource(Utilities.getDrawableFromRes(
+            context,
+            badge.getImageRes()
+        ));
     }
 
     @Override
@@ -48,14 +53,13 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
     }
 
     // Method to filter by keyword and category
-    public void filter(String keyword, String category) {
+    public void filter(String keyword) {
         List<Badge> filteredBadges = new ArrayList<>();
 
         for (Badge badge : allBadges) {
-            boolean matchesKeyword = badge.getTitle().toLowerCase().contains(keyword.toLowerCase());
-            boolean matchesCategory = category.equals("All") || badge.getCategory().equals(category);  // Add your category logic here
+            boolean matchesKeyword = badge.getTitle().toLowerCase().startsWith(keyword.toLowerCase());
 
-            if (matchesKeyword && matchesCategory) {
+            if (matchesKeyword) {
                 filteredBadges.add(badge);
             }
         }
@@ -63,20 +67,46 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
         updateBadgeList(filteredBadges);
     }
 
+    // Separate filter for category
+    public void filterByCategory(String category) {
+        category = category.toLowerCase();
+
+        badgeList.clear();
+        if (category.isEmpty() || category.equals("all")) {
+            badgeList.addAll(allBadges); // If query is empty, restore the original list
+        } else {
+            for (Badge badge : allBadges) {
+                List<String> categories = badge.getCategories();
+                if (categories != null && categories.stream().map(String::toLowerCase).anyMatch(category::equals)) {
+                    badgeList.add(badge);
+                }
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
+
     // Method to update the badge list
-    public void updateBadgeList(List<Badge> filteredBadges) {
-        this.badgeList = filteredBadges;
+    public void updateBadgeList(List<Badge> newBadges) {
+        badgeList.clear();
+        badgeList.addAll(newBadges);
+
+        if (allBadges.isEmpty()){
+            allBadges.addAll(newBadges); // Add all badges at the start
+        }
+
         notifyDataSetChanged();
     }
 
     public static class BadgeViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle, tvDesc;
+        TextView title, subtitle;
         ImageView image;
 
         public BadgeViewHolder(View itemView) {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvDesc = itemView.findViewById(R.id.tvDesc);
+            title = itemView.findViewById(R.id.text_certificate_title);
+            subtitle = itemView.findViewById(R.id.text_certificate_subtitle);
             image = itemView.findViewById(R.id.ivBadge);
         }
     }

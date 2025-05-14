@@ -4,12 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,23 +17,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ph.edu.usc.skillboost.model.Badge;
 import ph.edu.usc.skillboost.model.Course;
 import ph.edu.usc.skillboost.view.adapters.FilterAdapter;
 import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.view.adapters.CourseAdapter;
-import ph.edu.usc.skillboost.viewmodel.BadgeViewModel;
 import ph.edu.usc.skillboost.viewmodel.CourseViewModel;
 
 public class CoursesActivity extends BaseActivity {
 
-    RecyclerView filterRecycler;
-    RecyclerView recyclerView;
+    RecyclerView filterRecycler, courseRecycler;
     ImageView back, bookmark;
     EditText searchBar;
-    List<Course> courseList;
     private CourseViewModel courseViewModel;
     CourseAdapter courseAdapter;
+    FilterAdapter filterAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,24 +39,7 @@ public class CoursesActivity extends BaseActivity {
 
         initViews();
         setupListeners();
-
-        courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
-
-        courseAdapter = new CourseAdapter(this, new ArrayList<>(), CourseAdapter.CardSize.LARGE, "courses");
-        recyclerView.setLayoutManager(new LinearLayoutManager(CoursesActivity.this));
-        recyclerView.setAdapter(courseAdapter);
-
-        courseViewModel.getAllCourses().observe(this, this::updateCourseList);
-        List<String> filters = Arrays.asList("All", "Top Courses", "Recommended", "Recently Added", "Other");
-
-        FilterAdapter filterAdapter = new FilterAdapter(filters, filter -> {
-            // TODO: Handle filter click - update RecyclerView contents, etc.
-            Toast.makeText(this, "Selected: " + filter, Toast.LENGTH_SHORT).show();
-        });
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        filterRecycler.setLayoutManager(layoutManager);
-        filterRecycler.setAdapter(filterAdapter);
+        setupRecyclerViews();
     }
 
     private void setupListeners() {
@@ -108,22 +87,37 @@ public class CoursesActivity extends BaseActivity {
         back = findViewById(R.id.back);
         bookmark = findViewById(R.id.savedCourses);
         filterRecycler = findViewById(R.id.filterRecycler);
-        recyclerView = findViewById(R.id.recycler_view_courses);
+        courseRecycler = findViewById(R.id.recycler_view_courses);
         searchBar = findViewById(R.id.search_bar);
     }
 
-    private void filterCourses(String query) {
-        List<Course> filteredCourses = new ArrayList<>();
-        for (Course course : courseList) {
-            if (course.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                    course.getDescription().toLowerCase().contains(query.toLowerCase())) {
-                filteredCourses.add(course);
-            }
-        }
-        courseAdapter.updateCourseList(filteredCourses);
+    private void setupRecyclerViews() {
+        courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
+
+        courseAdapter = new CourseAdapter(this, new ArrayList<>(), CourseAdapter.CardSize.LARGE, "courses");
+        courseRecycler.setLayoutManager(new LinearLayoutManager(CoursesActivity.this));
+        courseRecycler.setAdapter(courseAdapter);
+
+        courseViewModel.getAllCourses().observe(this, this::updateCourseList);
+        List<String> filters = Arrays.asList("All", "Top Courses", "Recommended", "Recently Added", "Other");
+
+        filterAdapter = new FilterAdapter(filters, filter -> {
+            courseAdapter.filterByCategory(filter);
+        });
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        filterRecycler.setLayoutManager(layoutManager);
+        filterRecycler.setAdapter(filterAdapter);
     }
 
     private void updateCourseList(List<Course> courses) {
         courseAdapter.updateCourseList(courses);
+
+        String selectedCategory = getIntent().getStringExtra("selectedCategory");
+
+        if (selectedCategory != null) {
+            filterAdapter.setSelectedFilter(selectedCategory);
+            courseAdapter.filterByCategory(selectedCategory);
+        }
     }
 }

@@ -5,25 +5,23 @@ import java.util.List;
 public class Course {
 
     private String courseId;
-    private String imageUrl;
+    private String imageRes;
     private String title;
-
     private String subtitle;
     private String description;
-
     private List<String> tags;
     private List<String> categories;
 
     public Course() {}
 
-    public Course(String courseId, String title, String subtitle, String description, List<String> tags, List<String> categories, String imageUrl) {
+    public Course(String courseId, String title, String subtitle, String description, List<String> tags, List<String> categories, String imageRes) {
         this.courseId = courseId;
         this.title = title;
         this.subtitle = subtitle;
         this.description = description;
         this.tags = tags;
         this.categories = categories;
-        this.imageUrl = imageUrl;
+        this.imageRes = imageRes;
     }
 
     public String getCourseId() { return courseId; }
@@ -41,9 +39,8 @@ public class Course {
     public List<String> getCategories() { return categories; }
     public void setCategories(List<String> categories) { this.categories = categories; }
 
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
-
+    public String getImageRes() { return imageRes; }
+    public void setImageRes(String imageRes) { this.imageRes = imageRes; }
     public String getSubtitle() { return subtitle; }
     public void setSubtitle(String subtitle) { this.subtitle = subtitle; }
 }

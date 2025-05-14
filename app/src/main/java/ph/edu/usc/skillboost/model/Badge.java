@@ -1,52 +1,54 @@
 package ph.edu.usc.skillboost.model;
 
+import java.util.List;
+
 public class Badge {
-    private int badgeID;       // Unique ID for each badge
+    private String badgeId;       // Unique ID for each badge
     private String title;
-    private String description;
-    private String category;
-    private int imageRes;
+    private String subtitle;
+    private List<String> categories;
+    private String imageRes;
+
+    public Badge() {} // Needed for Firebase
 
     // Constructor with badgeID
-    public Badge(int badgeID, String title, String description, int imageRes, String category) {
-        this.badgeID = badgeID;
+    public Badge(String badgeId, String title, String subtitle, String imageRes, List<String> categories) {
+        this.badgeId = badgeId;
         this.title = title;
-        this.description = description;
+        this.subtitle = subtitle;
         this.imageRes = imageRes;
-        this.category = category;
+        this.categories = categories;
     }
 
-    // Getter for the category
-    public String getCategory() {
-        return category;
+    // Badge ID
+    public String getBadgeId() { // Ensure the method is named correctly
+        return badgeId;
+    }
+    public void setBadgeId(String badgeID) {
+        this.badgeId = badgeID;
     }
 
-    // Getter and Setter for badgeID
-    public int getBadgeID() { // Ensure the method is named correctly
-        return badgeID;
-    }
+    // Categories
+    public List<String> getCategories() { return categories; }
+    public void setCategories(List<String> categories) { this.categories = categories; }
 
-    public void setBadgeID(int badgeID) {
-        this.badgeID = badgeID;
-    }
-
-    // Getter for title
+    // Title
     public String getTitle() {
         return title;
     }
+    public void setTitle(String title) { this.title = title; }
 
-    // Getter for description
-    public String getDescription() {
-        return description;
+    // Description
+    public String getSubtitle() {
+        return subtitle;
     }
+    public void setSubtitle(String subtitle) { this.subtitle = subtitle; }
 
-    // Getter for image resource
-    public int getImageRes() {
+    // Image Resource
+    public String getImageRes() {
         return imageRes;
     }
-
-    // Optionally, you can also set the image resource if needed
-    public void setImageRes(int imageRes) {
+    public void setImageRes(String imageRes) {
         this.imageRes = imageRes;
     }
 }

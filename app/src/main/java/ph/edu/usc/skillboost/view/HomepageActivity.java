@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,22 +23,25 @@ import java.util.List;
 import ph.edu.usc.skillboost.model.Course;
 import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.view.adapters.CourseAdapter;
+import ph.edu.usc.skillboost.viewmodel.CourseViewModel;
 
 public class HomepageActivity extends BaseActivity {
-
-    LinearLayout moreCourses;
+    TextView username;
     ImageView notifications;
     EditText searchBar;
-    List<Course> courseList;
-    CourseAdapter adapter;
-    TextView username;
+    LinearLayout moreCourses;
+    RecyclerView courseRecycler;
+    CourseAdapter courseAdapter;
+    private CourseViewModel courseViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentLayout(R.layout.activity_homepage);
 
-        username = findViewById(R.id.username);
+        initViews();
+        setupListeners();
+
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser != null) {
@@ -54,17 +58,40 @@ public class HomepageActivity extends BaseActivity {
             username.setText("Not logged in");
         }
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_courses);
+        courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
+
+        courseAdapter = new CourseAdapter(this, new ArrayList<>(), CourseAdapter.CardSize.MEDIUM, "home");
+        courseRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        courseRecycler.setAdapter(courseAdapter);
+
+        courseViewModel.getAllCourses().observe(this, this::updateTopCoursesList);
+    }
+
+    private void initViews(){
+        moreCourses = findViewById(R.id.morecourses);
+        notifications = findViewById(R.id.notifications);
+        courseRecycler = findViewById(R.id.recycler_view_courses);
         searchBar = findViewById(R.id.search_bar);
+        username = findViewById(R.id.username);
+    }
 
-        courseList = new ArrayList<>();
-        courseList.add(new Course("1", "Math Basics", "Introduction to Math", "Lorem Ipsum", new ArrayList<>(), new ArrayList<>(),"course1"));
-        courseList.add(new Course("2", "Advanced Java", "Deep dive into OOP", "Lorem Ipsum", new ArrayList<>(), new ArrayList<>(), "course2"));
-        courseList.add(new Course("3", "UI/UX Design", "Design modern interfaces", "Lorem Ipsum", new ArrayList<>(), new ArrayList<>(), "course3"));
+    private void setupListeners() {
+        moreCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomepageActivity.this, CoursesActivity.class);
+                intent.putExtra("selectedCategory", "Top Courses");
+                startActivity(intent);
+            }
+        });
 
-        adapter = new CourseAdapter(this, courseList, CourseAdapter.CardSize.MEDIUM, "home");
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(adapter);
+        notifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomepageActivity.this, NotificationsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -74,7 +101,7 @@ public class HomepageActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterCourses(s.toString());
+                courseAdapter.filter(s.toString());
             }
 
             @Override
@@ -87,37 +114,17 @@ public class HomepageActivity extends BaseActivity {
             // Consume the "Enter" key press event
             return true;
         });
-
-
-        moreCourses = findViewById(R.id.morecourses);
-
-        moreCourses.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomepageActivity.this, CoursesActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        notifications = findViewById(R.id.notifications);
-
-        notifications.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomepageActivity.this, NotificationsActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
-    private void filterCourses(String query) {
-        List<Course> filteredCourses = new ArrayList<>();
-        for (Course course : courseList) {
-            if (course.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                    course.getDescription().toLowerCase().contains(query.toLowerCase())) {
-                filteredCourses.add(course);
+    private void updateTopCoursesList(List<Course> courses) {
+        List<Course> topCourses = new ArrayList<>();
+        for (Course course : courses) {
+            if (course.getCategories() != null && course.getCategories().contains("Top Courses")) {
+                topCourses.add(course);
             }
         }
-        adapter.updateCourseList(filteredCourses);
+
+        courseAdapter.updateCourseList(topCourses);
     }
+
 }

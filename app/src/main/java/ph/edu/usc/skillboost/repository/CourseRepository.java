@@ -1,9 +1,12 @@
 package ph.edu.usc.skillboost.repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -28,6 +31,28 @@ public class CourseRepository {
         });
         return coursesLiveData;
     }
+
+    public LiveData<Course> getCourseById(String courseId) {
+        MutableLiveData<Course> courseLiveData = new MutableLiveData<>();
+
+        coursesRef.whereEqualTo("courseId", courseId).get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                        Course course = documentSnapshot.toObject(Course.class);
+                        courseLiveData.setValue(course);
+                    } else {
+                        courseLiveData.setValue(null); // No course found
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    courseLiveData.setValue(null); // Handle failure
+                    Log.e("Firestore Error", e.getMessage());
+                });
+
+        return courseLiveData;
+    }
+
 
     public LiveData<Boolean> addCourse(Course course) {
         MutableLiveData<Boolean> result = new MutableLiveData<>();

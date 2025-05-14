@@ -12,6 +12,7 @@ public class User {
     private String bio;
     private long dob;
     private List<String> enrolledCourses;
+    private List<String> completedCourses;
     private List<String> badges;
     private long createdAt;
     private long lastLogin;
@@ -20,7 +21,7 @@ public class User {
     public User() {} // Needed for Firebase
 
     public User(String uid, String name, String email, String role, String gender, String bio, long dob,
-                List<String> enrolledCourses, List<String> badges, long createdAt, long lastLogin, String photoUrl) {
+                List<String> enrolledCourses, List<String> completedCoursesCourses, List<String> badges, long createdAt, long lastLogin, String photoUrl) {
         this.uid = uid;
         this.name = name;
         this.email = email;
@@ -29,6 +30,7 @@ public class User {
         this.bio = bio;
         this.dob = dob;
         this.enrolledCourses = enrolledCourses;
+        this.completedCourses = completedCourses;
         this.badges = badges;
         this.createdAt = createdAt;
         this.lastLogin = lastLogin;
@@ -59,6 +61,8 @@ public class User {
     public List<String> getEnrolledCourses() { return enrolledCourses; }
     public void setEnrolledCourses(List<String> enrolledCourses) { this.enrolledCourses = enrolledCourses; }
 
+    public List<String> getCompletedCourses() { return completedCourses; }
+    public void setCompletedCourses(List<String> completedCourses) { this.completedCourses = completedCourses; }
     public List<String> getBadges() { return badges; }
     public void setBadges(List<String> badges) { this.badges = badges; }
 
@@ -71,3 +75,5 @@ public class User {
     public String getPhotoUrl() { return photoUrl; }
     public void setPhotoUrl(String photoUrl) { this.photoUrl = photoUrl; }
 }
+
+//

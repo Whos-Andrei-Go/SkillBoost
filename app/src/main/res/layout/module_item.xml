@@ -2,35 +2,53 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/module_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="30dp"
     app:cardElevation="4dp"
-    app:cardBackgroundColor="@color/cardview_light_background">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="#353146">
 
-        <TextView
-            android:id="@+id/module_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Module 1"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/module_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Module 1"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/toggle_indicator"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/caret_down"
+                android:contentDescription="Toggle Indicator" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/module_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This is the description of Module 1."
             android:textSize="14sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="8dp" />
+            android:textColor="@color/white"
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
