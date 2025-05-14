@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,16 +23,17 @@ import java.util.List;
 import ph.edu.usc.skillboost.model.Course;
 import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.view.adapters.CourseAdapter;
+import ph.edu.usc.skillboost.viewmodel.CourseViewModel;
 
 public class HomepageActivity extends BaseActivity {
-
-    LinearLayout moreCourses;
+    TextView username;
     ImageView notifications;
     EditText searchBar;
-    List<Course> courseList;
-    CourseAdapter courseAdapter;
-    TextView username;
+    LinearLayout moreCourses;
     RecyclerView recyclerCourses;
+
+    CourseAdapter courseAdapter;
+    private CourseViewModel courseViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +59,13 @@ public class HomepageActivity extends BaseActivity {
             username.setText("Not logged in");
         }
 
-        courseList = new ArrayList<>();
-        courseList.add(new Course("1", "Math Basics", "Introduction to Math", "Lorem Ipsum", new ArrayList<>(), new ArrayList<>(),"course1"));
-        courseList.add(new Course("2", "Advanced Java", "Deep dive into OOP", "Lorem Ipsum", new ArrayList<>(), new ArrayList<>(), "course2"));
-        courseList.add(new Course("3", "UI/UX Design", "Design modern interfaces", "Lorem Ipsum", new ArrayList<>(), new ArrayList<>(), "course1"));
+        courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
 
-        courseAdapter = new CourseAdapter(this, courseList, CourseAdapter.CardSize.MEDIUM, "home");
+        courseAdapter = new CourseAdapter(this, new ArrayList<>(), CourseAdapter.CardSize.MEDIUM, "home");
         recyclerCourses.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerCourses.setAdapter(courseAdapter);
+
+        courseViewModel.getAllCourses().observe(this, this::updateTopCoursesList);
     }
 
     private void initViews(){
@@ -114,4 +115,16 @@ public class HomepageActivity extends BaseActivity {
             return true;
         });
     }
+
+    private void updateTopCoursesList(List<Course> courses) {
+        List<Course> topCourses = new ArrayList<>();
+        for (Course course : courses) {
+            if (course.getCategories() != null && course.getCategories().contains("Top Courses")) {
+                topCourses.add(course);
+            }
+        }
+
+        courseAdapter.updateCourseList(topCourses);
+    }
+
 }
