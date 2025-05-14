@@ -37,4 +37,8 @@ public class AuthViewModel extends ViewModel {
     public LiveData<String> getErrorLiveData() {
         return authRepository.getErrorLiveData();
     }
+
+    public LiveData<Boolean> changePassword(String currentPass, String newPass) {
+        return authRepository.changePassword(currentPass, newPass);
+    }
 }
