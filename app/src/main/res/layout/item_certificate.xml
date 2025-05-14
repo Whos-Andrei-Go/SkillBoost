@@ -1,53 +1,58 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="12dp"
-    app:cardCornerRadius="24dp"
+    android:layout_width="380dp"
+    android:layout_height="300dp"
+    android:layout_marginBottom="12dp"
+    android:layout_marginRight="30dp"
+    app:cardCornerRadius="40dp"
     app:cardElevation="6dp">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <!-- Certificate Image -->
         <ImageView
-            android:id="@+id/imgCertificate"
+            android:id="@+id/ivBadge"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="fitXY"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:src="@drawable/sample_certificate2"
-            android:adjustViewBounds="true" />
+            android:background="@drawable/rounded_image_background"
+            android:clipToOutline="true" />
 
-        <!-- Overlay with title and description -->
-        <LinearLayout
-            android:id="@+id/overlay"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/imgCertificate"
-            android:orientation="vertical"
-            android:padding="8dp"
-            android:background="#AA000000">
+            android:layout_gravity="bottom"
+            android:layout_margin="12dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#80000000">
 
-            <TextView
-                android:id="@+id/tvCertificateTitle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Certificate 1"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:padding="12dp">
 
-            <TextView
-                android:id="@+id/tvCertificateDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description"
-                android:textColor="#DDDDDD"
-                android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Badge Title"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tvDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-    </RelativeLayout>
+    </FrameLayout>
 </androidx.cardview.widget.CardView>

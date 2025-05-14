@@ -21,7 +21,8 @@ public class BadgeRepository {
         badgeRef.get().addOnSuccessListener(snapshot -> {
             List<Badge> badgeList = new ArrayList<>();
             for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                badgeList.add(doc.toObject(Badge.class));
+                Badge badge = doc.toObject(Badge.class);
+                badgeList.add(badge);
             }
             badgeLiveData.setValue(badgeList);
         });
@@ -30,7 +31,9 @@ public class BadgeRepository {
 
     public LiveData<Boolean> addBadge(Badge badge) {
         MutableLiveData<Boolean> result = new MutableLiveData<>();
-        badgeRef.document(badge.getBadgeId()).set(badge)
+        // Convert the badgeID (int) to a String before passing it to document()
+        badgeRef.document(String.valueOf(badge.getBadgeID()))
+                .set(badge)
                 .addOnSuccessListener(aVoid -> result.setValue(true))
                 .addOnFailureListener(e -> result.setValue(false));
         return result;

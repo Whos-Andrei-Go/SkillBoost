@@ -1,29 +1,52 @@
 package ph.edu.usc.skillboost.model;
 
 public class Badge {
-    private String badgeId;
-    private String name;
+    private int badgeID;       // Unique ID for each badge
+    private String title;
     private String description;
-    private String imageUrl;
+    private String category;
+    private int imageRes;
 
-    public Badge() {}
-
-    public Badge(String badgeId, String name, String description, String imageUrl) {
-        this.badgeId = badgeId;
-        this.name = name;
+    // Constructor with badgeID
+    public Badge(int badgeID, String title, String description, int imageRes, String category) {
+        this.badgeID = badgeID;
+        this.title = title;
         this.description = description;
-        this.imageUrl = imageUrl;
+        this.imageRes = imageRes;
+        this.category = category;
     }
 
-    public String getBadgeId() { return badgeId; }
-    public void setBadgeId(String badgeId) { this.badgeId = badgeId; }
+    // Getter for the category
+    public String getCategory() {
+        return category;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    // Getter and Setter for badgeID
+    public int getBadgeID() { // Ensure the method is named correctly
+        return badgeID;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setBadgeID(int badgeID) {
+        this.badgeID = badgeID;
+    }
 
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    // Getter for title
+    public String getTitle() {
+        return title;
+    }
+
+    // Getter for description
+    public String getDescription() {
+        return description;
+    }
+
+    // Getter for image resource
+    public int getImageRes() {
+        return imageRes;
+    }
+
+    // Optionally, you can also set the image resource if needed
+    public void setImageRes(int imageRes) {
+        this.imageRes = imageRes;
+    }
 }
