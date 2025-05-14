@@ -128,7 +128,7 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             for (Course course : allCourses) {
                 List<String> categories = course.getCategories();
-                if (categories.stream().map(String::toLowerCase).anyMatch(category::equals)) {
+                if (categories != null && categories.stream().map(String::toLowerCase).anyMatch(category::equals)) {
                     courseList.add(course);
                 }
             }

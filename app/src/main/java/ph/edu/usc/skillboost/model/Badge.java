@@ -5,15 +5,17 @@ import java.util.List;
 public class Badge {
     private String badgeId;       // Unique ID for each badge
     private String title;
-    private String description;
+    private String subtitle;
     private List<String> categories;
     private String imageRes;
 
+    public Badge() {} // Needed for Firebase
+
     // Constructor with badgeID
-    public Badge(String badgeId, String title, String description, String imageRes, List<String> categories) {
+    public Badge(String badgeId, String title, String subtitle, String imageRes, List<String> categories) {
         this.badgeId = badgeId;
         this.title = title;
-        this.description = description;
+        this.subtitle = subtitle;
         this.imageRes = imageRes;
         this.categories = categories;
     }
@@ -37,10 +39,10 @@ public class Badge {
     public void setTitle(String title) { this.title = title; }
 
     // Description
-    public String getDescription() {
-        return description;
+    public String getSubtitle() {
+        return subtitle;
     }
-    public void setDescription(String description) { this.description = description; }
+    public void setSubtitle(String subtitle) { this.subtitle = subtitle; }
 
     // Image Resource
     public String getImageRes() {

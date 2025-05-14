@@ -30,8 +30,7 @@ public class HomepageActivity extends BaseActivity {
     ImageView notifications;
     EditText searchBar;
     LinearLayout moreCourses;
-    RecyclerView recyclerCourses;
-
+    RecyclerView courseRecycler;
     CourseAdapter courseAdapter;
     private CourseViewModel courseViewModel;
 
@@ -62,8 +61,8 @@ public class HomepageActivity extends BaseActivity {
         courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
 
         courseAdapter = new CourseAdapter(this, new ArrayList<>(), CourseAdapter.CardSize.MEDIUM, "home");
-        recyclerCourses.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerCourses.setAdapter(courseAdapter);
+        courseRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        courseRecycler.setAdapter(courseAdapter);
 
         courseViewModel.getAllCourses().observe(this, this::updateTopCoursesList);
     }
@@ -71,7 +70,7 @@ public class HomepageActivity extends BaseActivity {
     private void initViews(){
         moreCourses = findViewById(R.id.morecourses);
         notifications = findViewById(R.id.notifications);
-        recyclerCourses = findViewById(R.id.recycler_view_courses);
+        courseRecycler = findViewById(R.id.recycler_view_courses);
         searchBar = findViewById(R.id.search_bar);
         username = findViewById(R.id.username);
     }
@@ -81,6 +80,7 @@ public class HomepageActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomepageActivity.this, CoursesActivity.class);
+                intent.putExtra("selectedCategory", "Top Courses");
                 startActivity(intent);
             }
         });

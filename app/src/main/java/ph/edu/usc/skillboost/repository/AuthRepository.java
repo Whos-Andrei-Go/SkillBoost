@@ -161,7 +161,7 @@ public class AuthRepository {
                                                     uid,
                                                     displayName,
                                                     email,
-                                                    "user",
+                                                    "learner",
                                                     "unspecified",
                                                     "",
                                                     0L,
