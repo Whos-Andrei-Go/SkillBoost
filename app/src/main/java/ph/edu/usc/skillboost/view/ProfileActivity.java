@@ -2,48 +2,31 @@ package ph.edu.usc.skillboost.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.Button;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.List;
+import androidx.lifecycle.ViewModelProvider;
 
 import ph.edu.usc.skillboost.R;
-import ph.edu.usc.skillboost.model.Course;
-import ph.edu.usc.skillboost.view.BaseActivity;
-import ph.edu.usc.skillboost.view.CoursesActivity;
-import ph.edu.usc.skillboost.view.adapters.CourseAdapter;
+import ph.edu.usc.skillboost.viewmodel.AuthViewModel;
 
 public class ProfileActivity extends BaseActivity {
-
-    LinearLayout moreCourses;
-
+    private AuthViewModel authViewModel;
+    private Button logoutButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentLayout(R.layout.activity_profile);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_courses_completed);
-        List<Course> courseList = new ArrayList<>();
-        courseList.add(new Course(R.drawable.course1, "Math Basics", "Introduction to Math", true));
-        courseList.add(new Course(R.drawable.course2, "Advanced Java", "Deep dive into OOP", true));
-        courseList.add(new Course(R.drawable.course1, "UI/UX Design", "Design modern interfaces", true));
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        logoutButton = findViewById(R.id.btnlogout);
 
-        CourseAdapter adapter = new CourseAdapter(courseList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(adapter);
+        logoutButton.setOnClickListener(v -> {
+            authViewModel.logout(this);
 
-        moreCourses = findViewById(R.id.more_courses_completed);
-
-        moreCourses.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, CoursesActivity.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         });
     }
 }
