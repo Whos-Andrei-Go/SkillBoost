@@ -12,6 +12,7 @@ public class User {
     private String bio;
     private long dob;
     private List<String> enrolledCourses;
+    private List<String> completedCourses;
     private List<String> badges;
     private long createdAt;
     private long lastLogin;
@@ -20,7 +21,7 @@ public class User {
     public User() {} // Needed for Firebase
 
     public User(String uid, String name, String email, String role, String gender, String bio, long dob,
-                List<String> enrolledCourses, List<String> badges, long createdAt, long lastLogin, String photoUrl) {
+                List<String> enrolledCourses, List<String> completedCoursesCourses, List<String> badges, long createdAt, long lastLogin, String photoUrl) {
         this.uid = uid;
         this.name = name;
         this.email = email;
@@ -29,6 +30,7 @@ public class User {
         this.bio = bio;
         this.dob = dob;
         this.enrolledCourses = enrolledCourses;
+        tihs.completedCourses = completedCourses;
         this.badges = badges;
         this.createdAt = createdAt;
         this.lastLogin = lastLogin;
