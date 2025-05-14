@@ -3,8 +3,11 @@ package ph.edu.usc.skillboost.repository;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
@@ -161,4 +164,29 @@ public class AuthRepository {
     public MutableLiveData<String> getErrorLiveData() {
         return errorLiveData;
     }
+
+    public LiveData<Boolean> changePassword(String currentPass, String newPass) {
+        MutableLiveData<Boolean> resultLiveData = new MutableLiveData<>();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null && user.getEmail() != null) {
+            AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), currentPass);
+
+            user.reauthenticate(credential).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    user.updatePassword(newPass).addOnCompleteListener(updateTask -> {
+                        resultLiveData.setValue(updateTask.isSuccessful());
+                    });
+                } else {
+                    resultLiveData.setValue(false);
+                }
+            });
+        } else {
+            resultLiveData.setValue(false);
+        }
+
+        return resultLiveData;
+    }
+
+
 }
