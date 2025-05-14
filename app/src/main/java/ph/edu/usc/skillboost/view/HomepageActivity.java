@@ -58,9 +58,9 @@ public class HomepageActivity extends BaseActivity {
         searchBar = findViewById(R.id.search_bar);
 
         courseList = new ArrayList<>();
-        courseList.add(new Course("1", "Math Basics", "Introduction to Math", new ArrayList<>(), new ArrayList<>(),R.drawable.course1));
-        courseList.add(new Course("2", "Advanced Java", "Deep dive into OOP", new ArrayList<>(), new ArrayList<>(), R.drawable.course2));
-        courseList.add(new Course("3", "UI/UX Design", "Design modern interfaces", new ArrayList<>(), new ArrayList<>(), R.drawable.course1));
+        courseList.add(new Course("1", "Math Basics", "Introduction to Math", "Lorem Ipsum", new ArrayList<>(), new ArrayList<>(),"course1"));
+        courseList.add(new Course("2", "Advanced Java", "Deep dive into OOP", "Lorem Ipsum", new ArrayList<>(), new ArrayList<>(), "course2"));
+        courseList.add(new Course("3", "UI/UX Design", "Design modern interfaces", "Lorem Ipsum", new ArrayList<>(), new ArrayList<>(), "course3"));
 
         adapter = new CourseAdapter(this, courseList, CourseAdapter.CardSize.MEDIUM, "home");
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
