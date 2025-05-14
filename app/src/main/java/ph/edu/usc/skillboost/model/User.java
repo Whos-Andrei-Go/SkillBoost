@@ -30,7 +30,7 @@ public class User {
         this.bio = bio;
         this.dob = dob;
         this.enrolledCourses = enrolledCourses;
-        tihs.completedCourses = completedCourses;
+        this.completedCourses = completedCourses;
         this.badges = badges;
         this.createdAt = createdAt;
         this.lastLogin = lastLogin;
@@ -61,6 +61,8 @@ public class User {
     public List<String> getEnrolledCourses() { return enrolledCourses; }
     public void setEnrolledCourses(List<String> enrolledCourses) { this.enrolledCourses = enrolledCourses; }
 
+    public List<String> getCompletedCourses() { return completedCourses; }
+    public void setCompletedCourses(List<String> completedCourses) { this.completedCourses = completedCourses; }
     public List<String> getBadges() { return badges; }
     public void setBadges(List<String> badges) { this.badges = badges; }
 
