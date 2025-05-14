@@ -23,10 +23,10 @@ import java.util.List;
 import ph.edu.usc.skillboost.model.User;
 
 public class AuthRepository {
-    private FirebaseAuth firebaseAuth;
-    private FirebaseFirestore db;
-    private MutableLiveData<User> userLiveData;
-    private MutableLiveData<String> errorLiveData;
+    private final FirebaseAuth firebaseAuth;
+    private final FirebaseFirestore db;
+    private final MutableLiveData<User> userLiveData;
+    private final MutableLiveData<String> errorLiveData;
 
     public AuthRepository() {
         firebaseAuth = FirebaseAuth.getInstance();
@@ -36,18 +36,19 @@ public class AuthRepository {
 
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
-            User user = new User(
-                    firebaseUser.getUid(),
-                    firebaseUser.getDisplayName(),
-                    firebaseUser.getEmail(),
-                    "user", // default role
-                    new ArrayList<>(), // enrolled courses
-                    new ArrayList<>(), // badges
-                    System.currentTimeMillis(),
-                    System.currentTimeMillis(),
-                    firebaseUser.getPhotoUrl() != null ? firebaseUser.getPhotoUrl().toString() : null
-            );
-            userLiveData.setValue(user);
+            db.collection("users").document(firebaseUser.getUid())
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            User user = documentSnapshot.toObject(User.class);
+                            userLiveData.setValue(user);
+                            Log.d("AuthRepository", "User loaded on init: " + user.getName());
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("AuthRepository", "Failed to fetch user on init", e);
+                        errorLiveData.setValue("Failed to load user.");
+                    });
         }
     }
 
@@ -57,12 +58,22 @@ public class AuthRepository {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                         if (firebaseUser != null) {
-                            db.collection("users").document(firebaseUser.getUid()).get()
+                            db.collection("users").document(firebaseUser.getUid())
+                                    .get()
                                     .addOnSuccessListener(documentSnapshot -> {
                                         if (documentSnapshot.exists()) {
                                             User user = documentSnapshot.toObject(User.class);
                                             userLiveData.setValue(user);
+                                            Log.d("AuthRepository", "Login success for: " + email);
+                                        } else {
+                                            errorLiveData.setValue("User profile not found.");
+                                            userLiveData.setValue(null);
                                         }
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        errorLiveData.setValue("Failed to fetch user data: " + e.getMessage());
+                                        userLiveData.setValue(null);
+                                        Log.e("AuthRepository", "Firestore error: ", e);
                                     });
                         }
                     } else {
@@ -74,8 +85,7 @@ public class AuthRepository {
                         } else {
                             errorLiveData.setValue("Login failed: " + (e != null ? e.getMessage() : "Unknown error"));
                         }
-
-                        Log.e("LOGIN_FAILED", "Error: ", e);
+                        Log.e("LOGIN_FAILED", "Login error", e);
                         userLiveData.setValue(null);
                     }
                 });
@@ -100,7 +110,7 @@ public class AuthRepository {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
                         if (firebaseUser != null) {
-                            // Update display name
+                            // Set display name in Firebase Auth
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(displayName)
                                     .build();
@@ -117,7 +127,10 @@ public class AuthRepository {
                                                     uid,
                                                     displayName,
                                                     email,
-                                                    "user", // default role
+                                                    "user",
+                                                    "unspecified",
+                                                    "",
+                                                    0L,
                                                     new ArrayList<>(),
                                                     new ArrayList<>(),
                                                     System.currentTimeMillis(),
@@ -127,13 +140,17 @@ public class AuthRepository {
 
                                             db.collection("users").document(uid)
                                                     .set(user)
-                                                    .addOnSuccessListener(unused -> userLiveData.setValue(user))
+                                                    .addOnSuccessListener(unused -> {
+                                                        userLiveData.setValue(user);
+                                                        Log.d("AuthRepository", "User registered successfully: " + displayName);
+                                                    })
                                                     .addOnFailureListener(e -> {
                                                         errorLiveData.setValue("Failed to save user profile: " + e.getMessage());
-                                                        Log.e("REGISTER_FIRESTORE", "Error: ", e);
+                                                        Log.e("REGISTER_FIRESTORE", "Error saving user", e);
                                                     });
+
                                         } else {
-                                            errorLiveData.setValue("Profile update failed.");
+                                            errorLiveData.setValue("Failed to update profile.");
                                         }
                                     });
                         }
@@ -148,7 +165,7 @@ public class AuthRepository {
                         }
 
                         userLiveData.setValue(null);
-                        Log.e("REGISTER_FAILED", "Error: ", e);
+                        Log.e("REGISTER_FAILED", "Error registering user", e);
                     }
                 });
     }
@@ -187,6 +204,4 @@ public class AuthRepository {
 
         return resultLiveData;
     }
-
-
 }

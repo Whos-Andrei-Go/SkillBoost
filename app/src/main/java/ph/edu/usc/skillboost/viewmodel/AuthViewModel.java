@@ -4,11 +4,13 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+
 import ph.edu.usc.skillboost.model.User;
 import ph.edu.usc.skillboost.repository.AuthRepository;
 
 public class AuthViewModel extends ViewModel {
-    private AuthRepository authRepository;
+
+    private final AuthRepository authRepository;
 
     public AuthViewModel() {
         authRepository = new AuthRepository();

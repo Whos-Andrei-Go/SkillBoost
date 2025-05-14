@@ -8,6 +8,9 @@ public class User {
     private String name;
     private String email;
     private String role;
+    private String gender;
+    private String bio;
+    private long dob;
     private List<String> enrolledCourses;
     private List<String> badges;
     private long createdAt;
@@ -16,11 +19,15 @@ public class User {
 
     public User() {} // Needed for Firebase
 
-    public User(String uid, String name, String email, String role, List<String> enrolledCourses, List<String> badges, long createdAt, long lastLogin, String photoUrl) {
+    public User(String uid, String name, String email, String role, String gender, String bio, long dob,
+                List<String> enrolledCourses, List<String> badges, long createdAt, long lastLogin, String photoUrl) {
         this.uid = uid;
         this.name = name;
         this.email = email;
         this.role = role;
+        this.gender = gender;
+        this.bio = bio;
+        this.dob = dob;
         this.enrolledCourses = enrolledCourses;
         this.badges = badges;
         this.createdAt = createdAt;
@@ -39,6 +46,15 @@ public class User {
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+
+    public String getGender() { return gender; }
+    public void setGender(String gender) { this.gender = gender; }
+
+    public String getBio() { return bio; }
+    public void setBio(String bio) { this.bio = bio; }
+
+    public long getDob() { return dob; }
+    public void setDob(long dob) { this.dob = dob; }
 
     public List<String> getEnrolledCourses() { return enrolledCourses; }
     public void setEnrolledCourses(List<String> enrolledCourses) { this.enrolledCourses = enrolledCourses; }
