@@ -51,15 +51,16 @@
                 android:layout_marginBottom="24dp" />
 
             <Spinner
+                android:id="@+id/spinnerAccountType"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/rect"
-                android:popupBackground="#222222"
                 android:layout_marginBottom="16dp"
+                android:background="@drawable/rect"
+                android:hint="Account Type"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="8dp"
-                android:spinnerMode="dropdown"
-                android:hint="Account Type" />
+                android:popupBackground="#222222"
+                android:spinnerMode="dropdown" />
 
             <LinearLayout
                 android:layout_width="match_parent"

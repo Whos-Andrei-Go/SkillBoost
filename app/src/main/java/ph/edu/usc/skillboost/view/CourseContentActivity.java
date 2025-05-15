@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -15,21 +16,26 @@ import ph.edu.usc.skillboost.R;
 
 public class CourseContentActivity extends ModuleBaseActivity {
 
+    ImageView sidebarToggle;
+    TextView headerText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setActivityContent(R.layout.activity_course_content);
 
-        // Set up window insets
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        initViews();
+        setupListeners();
+        setupViews();
+    }
 
-        // Set up sidebar toggle
-        ImageView sidebarToggle = findViewById(R.id.sidebar);
+    private void initViews(){
+        sidebarToggle = findViewById(R.id.sidebar);
+        headerText = findViewById(R.id.txt_header);
+    }
+
+    private void setupListeners(){
         sidebarToggle.setOnClickListener(v -> {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -37,5 +43,14 @@ public class CourseContentActivity extends ModuleBaseActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+
+        setOnModuleSelectListener(moduleName -> {
+            // Update the header text when a module is selected
+            headerText.setText(moduleName);
+        });
+    }
+
+    private void setupViews(){
+
     }
 }

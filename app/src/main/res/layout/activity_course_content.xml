@@ -1,85 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.CourseContentActivity"
-    android:orientation="vertical"
     android:background="@color/black"
-    android:padding="24dp">
+    android:padding="24dp"
+    tools:context=".view.CourseContentActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp">
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/sidebar"
-            android:src="@drawable/sidebar_close"
-            />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp">
 
-    <FrameLayout
-        android:layout_width="350dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp">
+            <ImageView
+                android:id="@+id/sidebar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/sidebar_close" />
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/img_header"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/signin"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/img_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/signin"
+                android:background="@drawable/rounded_image_background"
+                android:scaleType="centerCrop"
+                android:clipToOutline="true" />
+
+            <TextView
+                android:id="@+id/txt_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Module 1"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:background="#80000000"
+                android:padding="5dp" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/txt_content_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus nisi felis, porta et velit eu, elementum accumsan lectus. In eu cursus neque, sed aliquet nibh. Ut eget massa iaculis, accumsan risus vitae, pharetra diam. Nulla et erat fermentum, luctus felis vitae, iaculis arcu. Integer vel accumsan lacus."
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:justificationMode="inter_word" />
+
+        <ImageView
+            android:id="@+id/img_content_1"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/module_image_1"
             android:background="@drawable/rounded_image_background"
             android:scaleType="centerCrop"
             android:clipToOutline="true" />
 
         <TextView
-            android:id="@+id/txt_overlay"
+            android:id="@+id/txt_content_2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Module 1"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:background="#80000000"
-            android:padding="5dp"/>
-    </FrameLayout>
+            android:layout_height="wrap_content"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus nisi felis, porta et velit eu, elementum accumsan lectus. In eu cursus neque, sed aliquet nibh. Ut eget massa iaculis, accumsan risus vitae, pharetra diam. Nulla et erat fermentum, luctus felis vitae, iaculis arcu. Integer vel accumsan lacus."
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:justificationMode="inter_word" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt_content_1"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus nisi felis, porta et velit eu, elementum accumsan lectus. In eu cursus neque, sed aliquet nibh. Ut eget massa iaculis, accumsan risus vitae, pharetra diam. Nulla et erat fermentum, luctus felis vitae, iaculis arcu. Integer vel accumsan lacus."
-        android:padding="16dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:justificationMode="inter_word"
-        />
+        <ImageView
+            android:id="@+id/img_content_2"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/module_video_1"
+            android:background="@drawable/rounded_image_background"
+            android:scaleType="centerCrop"
+            android:clipToOutline="true" />
 
-    <ImageView
-        android:id="@+id/img_content_1"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/module_image_1"
-        android:background="@drawable/rounded_image_background"
-        android:scaleType="centerCrop"
-        android:clipToOutline="true" />
+        <TextView
+            android:id="@+id/txt_content_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus nisi felis, porta et velit eu, elementum accumsan lectus. In eu cursus neque, sed aliquet nibh. Ut eget massa iaculis, accumsan risus vitae, pharetra diam. Nulla et erat fermentum, luctus felis vitae, iaculis arcu. Integer vel accumsan lacus."
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:justificationMode="inter_word" />
+    </LinearLayout>
+</ScrollView>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt_content_2"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus nisi felis, porta et velit eu, elementum accumsan lectus. In eu cursus neque, sed aliquet nibh. Ut eget massa iaculis, accumsan risus vitae, pharetra diam. Nulla et erat fermentum, luctus felis vitae, iaculis arcu. Integer vel accumsan lacus."
-        android:padding="16dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:justificationMode="inter_word"
-        />
-</LinearLayout>
