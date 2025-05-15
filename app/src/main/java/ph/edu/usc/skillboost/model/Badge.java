@@ -8,16 +8,18 @@ public class Badge {
     private String subtitle;
     private List<String> categories;
     private String imageRes;
+    private String courseId;
 
     public Badge() {} // Needed for Firebase
 
     // Constructor with badgeID
-    public Badge(String badgeId, String title, String subtitle, String imageRes, List<String> categories) {
+    public Badge(String badgeId, String title, String subtitle, String imageRes, List<String> categories, String courseId) {
         this.badgeId = badgeId;
         this.title = title;
         this.subtitle = subtitle;
         this.imageRes = imageRes;
         this.categories = categories;
+        this.courseId = courseId;
     }
 
     // Badge ID
@@ -50,5 +52,14 @@ public class Badge {
     }
     public void setImageRes(String imageRes) {
         this.imageRes = imageRes;
+    }
+
+    // Course ID
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 }

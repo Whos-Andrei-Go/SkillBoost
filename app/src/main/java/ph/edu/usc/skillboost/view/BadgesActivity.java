@@ -88,14 +88,22 @@ public class BadgesActivity extends BaseActivity {
 
     private List<String> getFilterList() {
         List<String> filters = new ArrayList<>();
+        filters.add("All");
         filters.add("Top Awards");
         filters.add("Your Awards");
-        filters.add("More Awards");
+//        filters.add("More Awards");
         return filters;
     }
 
     private void updateBadgeList(List<Badge> badges) {
         badgeAdapter.updateBadgeList(badges);
+
+        String selectedCategory = getIntent().getStringExtra("selectedCategory");
+
+        if (selectedCategory != null) {
+            filterAdapter.setSelectedFilter(selectedCategory);
+            badgeAdapter.filterByCategory(selectedCategory);
+        }
     }
 
     private void showBadgeDialog(Badge badge) {
