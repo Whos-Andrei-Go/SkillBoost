@@ -54,7 +54,7 @@ public class PreferencesActivity extends AppCompatActivity {
         topicList.add(new Topic("Machine Learning"));
         topicList.add(new Topic("Agile Methodology"));
         topicList.add(new Topic("Mobile App Development"));
-        topicList.add(new Topic("Software Testing"));
+        topicList.add(new Topic("Math"));
 
         // Ensure you set the allTopics to topicList
         allTopics.addAll(topicList);

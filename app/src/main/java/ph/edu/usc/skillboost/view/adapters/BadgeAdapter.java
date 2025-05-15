@@ -1,6 +1,7 @@
 package ph.edu.usc.skillboost.view.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,17 +9,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ph.edu.usc.skillboost.model.Badge;
 import ph.edu.usc.skillboost.R;
+import ph.edu.usc.skillboost.model.Badge;
 import ph.edu.usc.skillboost.model.Course;
 import ph.edu.usc.skillboost.utils.Utilities;
 
 public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHolder> {
+    private final FirebaseUser currentUser;
+
     public enum CardSize {
         SMALL, MEDIUM, LARGE
     }
@@ -27,6 +37,7 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
     private List<Badge> allBadges;  // Save the original list of badges
     private CardSize cardSize;
     private Context context;
+    FirebaseFirestore db;
 
     public BadgeAdapter(Context context, List<Badge> badgeList) {
         this(context, badgeList, CardSize.SMALL); // Call the main constructor with default size
@@ -36,6 +47,8 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
         this.badgeList = badgeList;
         this.cardSize = cardSize;
         this.allBadges = new ArrayList<>(badgeList);  // Keep a copy of the original list
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        this.db = FirebaseFirestore.getInstance();
     }
 
     @NonNull
@@ -110,6 +123,32 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
         badgeList.clear();
         if (category.isEmpty() || category.equals("all")) {
             badgeList.addAll(allBadges); // If query is empty, restore the original list
+        } else if (category.equalsIgnoreCase("Your Awards") && currentUser != null) {
+            String userId = currentUser.getUid();
+
+            db.collection("users").document(userId)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            List<String> completedCourses = (List<String>) documentSnapshot.get("completedCourses");
+
+                            if (completedCourses != null) {
+                                // Load badges and filter by completed courses
+                                db.collection("badges").get().addOnSuccessListener(querySnapshot -> {
+                                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                                        Badge badge = doc.toObject(Badge.class);
+                                        if (badge != null && completedCourses.contains(badge.getCourseId())) {
+                                            badgeList.add(badge);
+                                        }
+                                    }
+
+                                    notifyDataSetChanged();
+                                });
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                    });
         } else {
             for (Badge badge : allBadges) {
                 List<String> categories = badge.getCategories();

@@ -14,13 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.model.Course;
+import ph.edu.usc.skillboost.model.Topic;
 import ph.edu.usc.skillboost.utils.Utilities;
 import ph.edu.usc.skillboost.view.CourseDetailsActivity;
 
@@ -35,6 +38,7 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context context;
     private String source;
     FirebaseUser currentUser;
+    FirebaseFirestore db;
 
     public CourseAdapter(Context context, List<Course> courseList, CardSize cardSize, String source) {
         this.courseList = courseList;
@@ -43,6 +47,7 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.context = context;
         this.source = source;
         this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        this.db = FirebaseFirestore.getInstance();
     }
 
     @NonNull
@@ -128,14 +133,14 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public void filterByCategory(String category) {
         category = category.toLowerCase();
-
         courseList.clear();
+
         if (category.isEmpty() || category.equals("all")) {
-            courseList.addAll(allCourses); // If query is empty, restore the original list
+            courseList.addAll(allCourses);
+            notifyDataSetChanged();
+
         } else if (category.equalsIgnoreCase("Completed Courses") && currentUser != null) {
             String userId = currentUser.getUid();
-
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("users").document(userId)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
@@ -151,10 +156,35 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                         notifyDataSetChanged();
                     })
-                    .addOnFailureListener(e -> {
-                        // Handle error here if necessary
-                        notifyDataSetChanged();
-                    });
+                    .addOnFailureListener(e -> notifyDataSetChanged());
+
+        } else if (category.equalsIgnoreCase("Recommended") && currentUser != null) {
+            // Fetch user preferences first
+            getUserPreferences(userPreferences -> {
+                db.collection("courses").get()
+                        .addOnSuccessListener(querySnapshot -> {
+
+                            for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                                Course course = doc.toObject(Course.class);
+                                if (course != null && course.getTags() != null) {
+                                    boolean matchesPreference = false;
+                                    for (String tag : course.getTags()) {
+                                        if (userPreferences.stream()
+                                                .anyMatch(topic -> topic.getName().equalsIgnoreCase(tag))) {
+                                            matchesPreference = true;
+                                            break;
+                                        }
+                                    }
+                                    if (matchesPreference) {
+                                        courseList.add(course);
+                                    }
+                                }
+                            }
+                            notifyDataSetChanged();
+                        })
+                        .addOnFailureListener(e -> notifyDataSetChanged());
+            });
+
         } else {
             for (Course course : allCourses) {
                 List<String> categories = course.getCategories();
@@ -162,10 +192,42 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     courseList.add(course);
                 }
             }
+            notifyDataSetChanged();
         }
-
-        notifyDataSetChanged();
     }
+
+    private void getUserPreferences(PreferencesCallback callback) {
+        List<Topic> userPreferences = new ArrayList<>();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+
+            db.collection("users").document(userId)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            List<Map<String, Object>> preferenceMaps = (List<Map<String, Object>>) documentSnapshot.get("preferences");
+
+                            if (preferenceMaps != null) {
+                                for (Map<String, Object> map : preferenceMaps) {
+                                    String name = (String) map.get("name");
+                                    Topic topic = new Topic(name);
+                                    userPreferences.add(topic);
+                                }
+                            }
+                        }
+                        callback.onCallback(userPreferences);
+                    })
+                    .addOnFailureListener(e -> callback.onCallback(userPreferences));
+        } else {
+            // User not logged in, return empty list immediately
+            callback.onCallback(userPreferences);
+        }
+    }
+
+    public interface PreferencesCallback {
+        void onCallback(List<Topic> userPreferences);
+    }
+
 
     static class CourseViewHolder extends RecyclerView.ViewHolder {
         TextView title, subtitle;
