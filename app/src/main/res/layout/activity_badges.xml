@@ -5,10 +5,10 @@
     android:id="@+id/badges"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="view.BadgesActivity"
     android:orientation="vertical"
     android:background="@color/black"
-    android:padding="24dp">
+    android:padding="24dp"
+    tools:context="view.BadgesActivity">
 
     <!-- Header with back and bookmark buttons -->
     <LinearLayout
@@ -80,22 +80,18 @@
         android:layout_width="match_parent"
         android:layout_height="16dp" />
 
-    <!-- Spacer to push badges RecyclerView downward -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <!-- Centered Vertical RecyclerView for Badges -->
+    <!-- Badge RecyclerView fills remaining space -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/badgeRecycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
+        android:paddingBottom="24dp"
         android:clipToPadding="false"
         android:orientation="vertical"
         android:overScrollMode="never"
-        android:scrollbars="none" />
+        android:scrollbars="vertical" />
 
 </LinearLayout>
