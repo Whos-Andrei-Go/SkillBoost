@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -93,12 +94,33 @@ public class SettingsActivity extends BaseActivity {
             }
         });
 
-        deleteAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle Delete Account click
-            }
+        deleteAccount.setOnClickListener(v -> {
+            EditText passwordInput = new EditText(this);
+            passwordInput.setHint("Enter your password");
+            passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Confirm Delete")
+                    .setMessage("Please re-enter your password to delete your account:")
+                    .setView(passwordInput)
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        String password = passwordInput.getText().toString();
+
+                        authViewModel.deleteAccount(password).observe(this, success -> {
+                            if (success != null && success) {
+                                Toast.makeText(this, "Account deleted successfully.", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(this, LoginActivity.class));
+                                finish();
+                            } else {
+                                String error = authViewModel.getErrorLiveData().getValue();
+                                Toast.makeText(this, error != null ? error : "Account deletion failed.", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         });
+
 
 
         securityPrivacyHeader.setOnClickListener(new View.OnClickListener() {
