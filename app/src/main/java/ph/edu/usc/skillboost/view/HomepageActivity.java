@@ -66,6 +66,18 @@ public class HomepageActivity extends BaseActivity {
 
         courseViewModel.getAllCourses().observe(this, this::updateTopCoursesList);
     }
+    protected void onResume() {
+        super.onResume();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String displayName = currentUser.getDisplayName();
+            if (displayName != null && !displayName.isEmpty()) {
+                username.setText("Hello, " + displayName);
+            } else {
+                username.setText("Hello, User");
+            }
+        }
+    }
 
     private void initViews(){
         moreCourses = findViewById(R.id.morecourses);

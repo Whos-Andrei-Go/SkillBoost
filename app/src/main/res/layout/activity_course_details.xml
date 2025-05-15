@@ -41,12 +41,12 @@
     <ImageView
         android:layout_width="350dp"
         android:layout_height="200dp"
-        android:id="@+id/course_image"
+        android:id="@+id/img_course"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:src="@drawable/explorecourses"
         android:background="@drawable/rounded_image_background"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:clipToOutline="true"
         />
 

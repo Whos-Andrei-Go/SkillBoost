@@ -1,10 +1,12 @@
 package ph.edu.usc.skillboost.view;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -19,6 +21,7 @@ import java.util.List;
 import ph.edu.usc.skillboost.model.Badge;
 import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.model.Course;
+import ph.edu.usc.skillboost.utils.Utilities;
 import ph.edu.usc.skillboost.view.adapters.BadgeAdapter;
 import ph.edu.usc.skillboost.view.adapters.FilterAdapter;
 import ph.edu.usc.skillboost.viewmodel.BadgeViewModel;
@@ -43,17 +46,16 @@ public class BadgesActivity extends BaseActivity {
         setupSearch();
 
         backBtn.setOnClickListener(v -> finish());
-        bookmarkedBtn.setOnClickListener(v -> {
-            // TODO: Navigate to bookmarked badges
-        });
+
+        badgeAdapter.setOnBadgeClickListener(badge -> showBadgeDialog(badge));
+
     }
 
     private void initViews() {
         searchBar = findViewById(R.id.search_bar);
-        badgeRecycler = findViewById(R.id.recycler_view_badges);
+        badgeRecycler = findViewById(R.id.badgeRecycler);
         filterRecycler = findViewById(R.id.filterRecycler);
         backBtn = findViewById(R.id.back);
-        bookmarkedBtn = findViewById(R.id.bookmarked);
     }
 
     private void setupRecyclerViews() {
@@ -61,7 +63,7 @@ public class BadgesActivity extends BaseActivity {
 
         // Set up RecyclerView for badges
         badgeRecycler.setLayoutManager(new LinearLayoutManager(this));
-        badgeAdapter = new BadgeAdapter(this, new ArrayList<>());
+        badgeAdapter = new BadgeAdapter(this, new ArrayList<>(), BadgeAdapter.CardSize.LARGE);
         badgeRecycler.setAdapter(badgeAdapter);
 
         badgeViewModel.getAllBadges().observe(this, this::updateBadgeList);
@@ -86,8 +88,8 @@ public class BadgesActivity extends BaseActivity {
 
     private List<String> getFilterList() {
         List<String> filters = new ArrayList<>();
-        filters.add("Your Awards");
         filters.add("Top Awards");
+        filters.add("Your Awards");
         filters.add("More Awards");
         return filters;
     }
@@ -96,11 +98,30 @@ public class BadgesActivity extends BaseActivity {
         badgeAdapter.updateBadgeList(badges);
     }
 
+    private void showBadgeDialog(Badge badge) {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialogue_badge_details);
+
+        ImageView imageView = dialog.findViewById(R.id.dialog_badge_image);
+        TextView title = dialog.findViewById(R.id.dialog_badge_title);
+        TextView subtitle = dialog.findViewById(R.id.dialog_badge_subtitle);
+        TextView closeBtn = dialog.findViewById(R.id.dialog_close);
+
+        imageView.setImageResource(Utilities.getDrawableFromRes(this, badge.getImageRes()));
+        title.setText(badge.getTitle());
+        subtitle.setText(badge.getSubtitle());
+
+        closeBtn.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+
 //    private List<Badge> getSampleBadges() {
 //        List<Badge> list = new ArrayList<>();
-//        list.add(new Badge("1", "Java Basics", "Completed in 2023", "sample_certificate2", Arrays.asList("Your Awards")));
-//        list.add(new Badge("2", "Android Advanced", "Completed in 2024", "sample_certificate2", Arrays.asList("Top Awards")));
-//        list.add(new Badge("3", "Kotlin Mastery", "Completed in 2025", "sample_certificate2", Arrays.asList("More Awards")));
+//        list.add(new Badge("1", "Java Basics", "Completed in 2023", "sample_certificate_2.png", Arrays.asList("Your Awards")));
+//        list.add(new Badge("2", "Android Advanced", "Completed in 2024", "sample_certificate_2.png", Arrays.asList("Top Awards")));
+//        list.add(new Badge("3", "Kotlin Mastery", "Completed in 2025", "sample_certificate_2.png", Arrays.asList("More Awards")));
 //        return list;
 //    }
 }
