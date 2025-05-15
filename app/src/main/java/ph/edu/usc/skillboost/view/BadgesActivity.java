@@ -1,10 +1,12 @@
 package ph.edu.usc.skillboost.view;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -19,6 +21,7 @@ import java.util.List;
 import ph.edu.usc.skillboost.model.Badge;
 import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.model.Course;
+import ph.edu.usc.skillboost.utils.Utilities;
 import ph.edu.usc.skillboost.view.adapters.BadgeAdapter;
 import ph.edu.usc.skillboost.view.adapters.FilterAdapter;
 import ph.edu.usc.skillboost.viewmodel.BadgeViewModel;
@@ -46,6 +49,9 @@ public class BadgesActivity extends BaseActivity {
         bookmarkedBtn.setOnClickListener(v -> {
             // TODO: Navigate to bookmarked badges
         });
+
+        badgeAdapter.setOnBadgeClickListener(badge -> showBadgeDialog(badge));
+
     }
 
     private void initViews() {
@@ -95,6 +101,25 @@ public class BadgesActivity extends BaseActivity {
     private void updateBadgeList(List<Badge> badges) {
         badgeAdapter.updateBadgeList(badges);
     }
+
+    private void showBadgeDialog(Badge badge) {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialogue_badge_details);
+
+        ImageView imageView = dialog.findViewById(R.id.dialog_badge_image);
+        TextView title = dialog.findViewById(R.id.dialog_badge_title);
+        TextView subtitle = dialog.findViewById(R.id.dialog_badge_subtitle);
+        TextView closeBtn = dialog.findViewById(R.id.dialog_close);
+
+        imageView.setImageResource(Utilities.getDrawableFromRes(this, badge.getImageRes()));
+        title.setText(badge.getTitle());
+        subtitle.setText(badge.getSubtitle());
+
+        closeBtn.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
 
 //    private List<Badge> getSampleBadges() {
 //        List<Badge> list = new ArrayList<>();

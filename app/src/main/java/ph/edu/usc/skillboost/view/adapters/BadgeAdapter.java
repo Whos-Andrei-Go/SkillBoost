@@ -45,6 +45,10 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
             context,
             badge.getImageRes()
         ));
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onBadgeClick(badge);
+        });
     }
 
     @Override
@@ -110,4 +114,14 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
             image = itemView.findViewById(R.id.ivBadge);
         }
     }
+
+    public interface OnBadgeClickListener {
+        void onBadgeClick(Badge badge);
+    }
+
+    private OnBadgeClickListener listener;
+    public void setOnBadgeClickListener(OnBadgeClickListener listener) {
+        this.listener = listener;
+    }
+
 }
