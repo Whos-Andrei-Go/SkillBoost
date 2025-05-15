@@ -131,7 +131,7 @@ public class ProfileActivity extends BaseActivity {
 
         List<Badge> badgeList = new ArrayList<>();
         badgeList.add(new Badge("1", "Java Master", "Completed the Advanced Java Course", "sample_certificate", Collections.emptyList()));
-        badgeList.add(new Badge("2", "UI/UX Expert", "Completed the UI/UX Design Course", "sample_certificate2", Collections.emptyList()));
+        badgeList.add(new Badge("2", "UI/UX Expert", "Completed the UI/UX Design Course", "sample_certificate_2.png", Collections.emptyList()));
 
         // Set up BadgeAdapter for displaying badges
         BadgeAdapter badgeAdapter = new BadgeAdapter(this, badgeList);
