@@ -30,7 +30,7 @@ public class ProfileActivity extends BaseActivity {
     ImageView settingsIcon;
     RecyclerView completedCourseRecycler;
     RecyclerView achievedBadgeRecycler;
-    TextView nameText, roleText;
+    TextView nameText, roleText, bioText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class ProfileActivity extends BaseActivity {
         achievedBadgeRecycler = findViewById(R.id.recycler_certificates_achieved);
         nameText = findViewById(R.id.txt_name);
         roleText = findViewById(R.id.txt_role);
+        bioText = findViewById(R.id.txt_bio);
     }
     private void setupListeners() {
         settingsIcon.setOnClickListener(new View.OnClickListener() {
@@ -87,20 +88,31 @@ public class ProfileActivity extends BaseActivity {
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
                             String displayRole = documentSnapshot.getString("role");
+                            String displayBio = documentSnapshot.getString("bio");
+
                             if (displayRole != null) {
                                 roleText.setText(displayRole); // Set the role text here
                             } else {
                                 roleText.setText("Role not found");
                             }
+
+                            if (displayBio != null) {
+                                bioText.setText(displayBio); // Set the bio text here
+                            } else {
+                                bioText.setText("No bio");
+                            }
                         }
                     })
                     .addOnFailureListener(e -> {
                         roleText.setText("Error fetching role");
+                        bioText.setText("Error fetching bio");
                     });
+
 
         } else {
             nameText.setText("Not logged in");
             roleText.setText("Unknown Role");
+            bioText.setText("No bio");
         }
 
         setupRecyclerViews();

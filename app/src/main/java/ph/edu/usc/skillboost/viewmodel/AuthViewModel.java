@@ -24,8 +24,8 @@ public class AuthViewModel extends ViewModel {
         authRepository.logout(context);
     }
 
-    public void register(String email, String password, String displayName) {
-        authRepository.register(email, password, displayName);
+    public void register(String email, String password, String displayName, String bio) {
+        authRepository.register(email, password, displayName, bio);
     }
 
     public boolean isUserLoggedIn() {

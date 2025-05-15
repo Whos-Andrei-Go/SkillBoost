@@ -22,7 +22,7 @@ import ph.edu.usc.skillboost.viewmodel.AuthViewModel;
 public class RegisterActivity extends AppCompatActivity {
 
     private AuthViewModel authViewModel;
-    private EditText nameEditText, passwordEditText, emailEditText;
+    private EditText nameEditText, passwordEditText, emailEditText, bioEditText;
     private Button signUpButton;
     private ImageView backArrow;
     private TextView logInText;
@@ -40,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
         nameEditText = findViewById(R.id.editTextName);
         passwordEditText = findViewById(R.id.editTextPassword);
         emailEditText = findViewById(R.id.editTextEmail);
+        bioEditText = findViewById(R.id.editTextBio);
         signUpButton = findViewById(R.id.buttonSignUp);
         backArrow = findViewById(R.id.backArrow);
         logInText = findViewById(R.id.textLogIn);
@@ -48,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
             String name = nameEditText.getText().toString().trim();
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
+            String bio = bioEditText.getText().toString().trim();
 
             if (email.isEmpty()) {
                 emailEditText.setError("Enter email");
@@ -67,7 +69,12 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            authViewModel.register(email, password, name);
+            if (bio.isEmpty()) {
+                bio = "";
+                return;
+            }
+
+            authViewModel.register(email, password, name, bio);
         });
 
         backArrow.setOnClickListener(v -> finish());

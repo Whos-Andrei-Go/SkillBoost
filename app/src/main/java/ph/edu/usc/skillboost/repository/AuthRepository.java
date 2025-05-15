@@ -122,7 +122,7 @@ public class AuthRepository {
         userLiveData.setValue(null);
     }
 
-    public void register(String email, String password, String displayName) {
+    public void register(String email, String password, String displayName, String bio) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -161,9 +161,9 @@ public class AuthRepository {
                                                     uid,
                                                     displayName,
                                                     email,
-                                                    "learner",
+                                                    "Learner",
                                                     "unspecified",
-                                                    "",
+                                                    bio,
                                                     0L,
                                                     new ArrayList<>(),
                                                     new ArrayList<>(),
