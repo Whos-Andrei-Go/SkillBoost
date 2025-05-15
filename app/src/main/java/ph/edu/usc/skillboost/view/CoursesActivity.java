@@ -87,7 +87,7 @@ public class CoursesActivity extends BaseActivity {
         back = findViewById(R.id.back);
         bookmark = findViewById(R.id.savedCourses);
         filterRecycler = findViewById(R.id.filterRecycler);
-        courseRecycler = findViewById(R.id.recycler_view_courses);
+        courseRecycler = findViewById(R.id.courseRecycler);
         searchBar = findViewById(R.id.search_bar);
     }
 
@@ -99,7 +99,7 @@ public class CoursesActivity extends BaseActivity {
         courseRecycler.setAdapter(courseAdapter);
 
         courseViewModel.getAllCourses().observe(this, this::updateCourseList);
-        List<String> filters = Arrays.asList("All", "Top Courses", "Recommended", "Recently Added", "Other");
+        List<String> filters = Arrays.asList("All", "Top Courses", "Recommended", "Recently Added", "Completed Courses");
 
         filterAdapter = new FilterAdapter(filters, filter -> {
             courseAdapter.filterByCategory(filter);

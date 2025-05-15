@@ -19,13 +19,22 @@ import ph.edu.usc.skillboost.model.Course;
 import ph.edu.usc.skillboost.utils.Utilities;
 
 public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHolder> {
+    public enum CardSize {
+        SMALL, MEDIUM, LARGE
+    }
+
     private List<Badge> badgeList;
     private List<Badge> allBadges;  // Save the original list of badges
+    private CardSize cardSize;
     private Context context;
 
     public BadgeAdapter(Context context, List<Badge> badgeList) {
+        this(context, badgeList, CardSize.SMALL); // Call the main constructor with default size
+    }
+    public BadgeAdapter(Context context, List<Badge> badgeList, CardSize cardSize) {
         this.context = context;
         this.badgeList = badgeList;
+        this.cardSize = cardSize;
         this.allBadges = new ArrayList<>(badgeList);  // Keep a copy of the original list
     }
 
@@ -33,6 +42,29 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeAdapter.BadgeViewHol
     @Override
     public BadgeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_certificate, parent, false);
+
+        int width = ViewGroup.LayoutParams.WRAP_CONTENT;
+        int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+        switch (cardSize) {
+            case SMALL:
+                width = Utilities.dpToPx(parent.getContext(), 200);
+                height = Utilities.dpToPx(parent.getContext(), 180);
+                break;
+            case MEDIUM:
+                width = Utilities.dpToPx(parent.getContext(), 230);
+                height = Utilities.dpToPx(parent.getContext(), 300);
+                break;
+            case LARGE:
+                width = Utilities.dpToPx(parent.getContext(), 340);
+                height = Utilities.dpToPx(parent.getContext(), 280);
+                break;
+        }
+
+        RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(width, height);
+        layoutParams.setMargins(Utilities.dpToPx(context, 0), Utilities.dpToPx(context, 0), Utilities.dpToPx(context, 30), Utilities.dpToPx(context, 30));
+        view.setLayoutParams(layoutParams);
+
         return new BadgeViewHolder(view);
     }
 

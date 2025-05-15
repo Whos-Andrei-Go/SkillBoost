@@ -12,13 +12,23 @@ import androidx.core.content.ContextCompat;
 import android.widget.TextView;
 import android.graphics.PorterDuff;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import ph.edu.usc.skillboost.R;
 
 public class BaseActivity extends AppCompatActivity {
 
+    FirebaseUser currentUser;
+    FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        db = FirebaseFirestore.getInstance();
     }
 
     protected void setContentLayout(int layoutResID) {
