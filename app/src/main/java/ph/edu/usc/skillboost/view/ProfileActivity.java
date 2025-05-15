@@ -3,16 +3,19 @@ package ph.edu.usc.skillboost.view;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -64,18 +67,28 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileActivity.this, CoursesActivity.class);
+                intent.putExtra("selectedCategory", "Completed Courses");
                 startActivity(intent);
             }
         });
     }
+    protected void onResume() {
+        super.onResume();
+        refreshProfileInfo();
+    }
+
     private void setupViews() {
+        refreshProfileInfo();
+        setupRecyclerViews();
+    }
+    private void refreshProfileInfo() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser != null) {
             String displayName = currentUser.getDisplayName();
             String userId = currentUser.getUid();
 
-            // Update the TextView with display name
+            // Update name
             if (displayName != null && !displayName.isEmpty()) {
                 nameText.setText(displayName);
             } else {
@@ -83,51 +96,54 @@ public class ProfileActivity extends BaseActivity {
             }
 
             // Fetch the role from Firestore
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("users").document(userId).get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
                             String displayRole = documentSnapshot.getString("role");
                             String displayBio = documentSnapshot.getString("bio");
 
-                            if (displayRole != null) {
-                                roleText.setText(displayRole); // Set the role text here
-                            } else {
-                                roleText.setText("Role not found");
-                            }
-
-                            if (displayBio != null) {
-                                bioText.setText(displayBio); // Set the bio text here
-                            } else {
-                                bioText.setText("No bio");
-                            }
+                            roleText.setText(displayRole != null ? displayRole : "Role not found");
+                            bioText.setText(displayBio != null ? displayBio : "No bio");
                         }
                     })
                     .addOnFailureListener(e -> {
                         roleText.setText("Error fetching role");
                         bioText.setText("Error fetching bio");
                     });
-
-
         } else {
             nameText.setText("Not logged in");
             roleText.setText("Unknown Role");
             bioText.setText("No bio");
         }
-
-        setupRecyclerViews();
     }
 
 
     private void setupRecyclerViews() {
-        List<Course> courseList = new ArrayList<>();
-        courseList.add(new Course("1", "Math Basics", "Introduction to Math", "SOME MATH AHH", new ArrayList<>(), new ArrayList<>(),"course1"));
-        courseList.add(new Course("2", "Advanced Java", "Deep dive into OOP", "SOME JAVA AHH", new ArrayList<>(), new ArrayList<>(), "course2"));
-        courseList.add(new Course("3", "UI/UX Design", "Design modern interfaces", "SOME DESIGN AHH", new ArrayList<>(), new ArrayList<>(), "course1"));
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
 
-        CourseAdapter adapter = new CourseAdapter(this, courseList, CourseAdapter.CardSize.SMALL, "profile");
-        completedCourseRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        completedCourseRecycler.setAdapter(adapter);
+            db.collection("completed_courses")
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Course> courseList = new ArrayList<>();
+
+                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        Course course = document.toObject(Course.class);
+                        courseList.add(course);
+                    }
+
+                    // Initialize the adapter with the fetched courses
+                    CourseAdapter adapter = new CourseAdapter(this, courseList, CourseAdapter.CardSize.SMALL, "profile");
+                    completedCourseRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                    completedCourseRecycler.setAdapter(adapter);
+                })
+                .addOnFailureListener(e -> {
+                    // Handle failure
+                    Toast.makeText(this, "Failed to load completed courses.", Toast.LENGTH_SHORT).show();
+                });
+
+        }
 
         List<Badge> badgeList = new ArrayList<>();
         badgeList.add(new Badge("1", "Java Master", "Completed the Advanced Java Course", "sample_certificate", Collections.emptyList()));

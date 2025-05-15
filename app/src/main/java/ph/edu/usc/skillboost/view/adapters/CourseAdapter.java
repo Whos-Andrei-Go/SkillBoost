@@ -12,6 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +34,7 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private CardSize cardSize;
     private Context context;
     private String source;
+    FirebaseUser currentUser;
 
     public CourseAdapter(Context context, List<Course> courseList, CardSize cardSize, String source) {
         this.courseList = courseList;
@@ -37,6 +42,7 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.cardSize = cardSize;
         this.context = context;
         this.source = source;
+        this.currentUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @NonNull
@@ -49,21 +55,21 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         switch (cardSize) {
             case SMALL:
-                width = dpToPx(parent.getContext(), 200);
-                height = dpToPx(parent.getContext(), 180);
+                width = Utilities.dpToPx(parent.getContext(), 200);
+                height = Utilities.dpToPx(parent.getContext(), 180);
                 break;
             case MEDIUM:
-                width = dpToPx(parent.getContext(), 230);
-                height = dpToPx(parent.getContext(), 300);
+                width = Utilities.dpToPx(parent.getContext(), 230);
+                height = Utilities.dpToPx(parent.getContext(), 300);
                 break;
             case LARGE:
-                width = dpToPx(parent.getContext(), 340);
-                height = dpToPx(parent.getContext(), 280);
+                width = Utilities.dpToPx(parent.getContext(), 340);
+                height = Utilities.dpToPx(parent.getContext(), 280);
                 break;
         }
 
         RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(width, height);
-        layoutParams.setMargins(dpToPx(context, 0), dpToPx(context, 0), dpToPx(context, 30), dpToPx(context, 30));
+        layoutParams.setMargins(Utilities.dpToPx(context, 0), Utilities.dpToPx(context, 0), Utilities.dpToPx(context, 30), Utilities.dpToPx(context, 30));
 
         if (viewType == 1) {  // Completed course
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_course_completed, parent, false);
@@ -126,6 +132,29 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         courseList.clear();
         if (category.isEmpty() || category.equals("all")) {
             courseList.addAll(allCourses); // If query is empty, restore the original list
+        } else if (category.equalsIgnoreCase("Completed Courses") && currentUser != null) {
+            String userId = currentUser.getUid();
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(userId)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            List<String> completedCourseIds = (List<String>) documentSnapshot.get("completedCourses");
+                            if (completedCourseIds != null) {
+                                for (Course course : allCourses) {
+                                    if (completedCourseIds.contains(course.getCourseId())) {
+                                        courseList.add(course);
+                                    }
+                                }
+                            }
+                        }
+                        notifyDataSetChanged();
+                    })
+                    .addOnFailureListener(e -> {
+                        // Handle error here if necessary
+                        notifyDataSetChanged();
+                    });
         } else {
             for (Course course : allCourses) {
                 List<String> categories = course.getCategories();
@@ -157,11 +186,6 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             super(itemView);
             image = itemView.findViewById(R.id.image_course);
         }
-    }
-
-    private int dpToPx(android.content.Context context, int dp) {
-        float density = context.getResources().getDisplayMetrics().density;
-        return Math.round(dp * density);
     }
 
     public void updateCourseList(List<Course> newCourses) {

@@ -63,7 +63,7 @@ public class BadgesActivity extends BaseActivity {
 
         // Set up RecyclerView for badges
         badgeRecycler.setLayoutManager(new LinearLayoutManager(this));
-        badgeAdapter = new BadgeAdapter(this, new ArrayList<>());
+        badgeAdapter = new BadgeAdapter(this, new ArrayList<>(), BadgeAdapter.CardSize.LARGE);
         badgeRecycler.setAdapter(badgeAdapter);
 
         badgeViewModel.getAllBadges().observe(this, this::updateBadgeList);
@@ -88,8 +88,8 @@ public class BadgesActivity extends BaseActivity {
 
     private List<String> getFilterList() {
         List<String> filters = new ArrayList<>();
-        filters.add("Your Awards");
         filters.add("Top Awards");
+        filters.add("Your Awards");
         filters.add("More Awards");
         return filters;
     }
