@@ -50,6 +50,7 @@
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:fontFamily="@font/poppins_regular"
             android:hint="Search badges or certificates..."
             android:drawableStart="@drawable/search"
             android:drawablePadding="8dp"
