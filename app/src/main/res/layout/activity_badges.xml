@@ -82,16 +82,28 @@
 
     </LinearLayout>
 
-    <!-- Vertical RecyclerView for Badges -->
+    <!-- Spacer to push badges RecyclerView downward -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Centered Vertical RecyclerView for Badges -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/badgeRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:clipToPadding="false"
         android:orientation="vertical"
         android:overScrollMode="never"
         android:scrollbars="none" />
+
+    <!-- Spacer to push badges RecyclerView upward -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
 </LinearLayout>

@@ -168,6 +168,7 @@ public class AuthRepository {
                                                     new ArrayList<>(),
                                                     new ArrayList<>(),
                                                     new ArrayList<>(),
+                                                    new ArrayList<>(),
                                                     System.currentTimeMillis(),
                                                     System.currentTimeMillis(),
                                                     photoUrl
