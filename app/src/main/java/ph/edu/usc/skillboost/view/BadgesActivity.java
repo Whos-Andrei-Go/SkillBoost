@@ -56,7 +56,7 @@ public class BadgesActivity extends BaseActivity {
 
     private void initViews() {
         searchBar = findViewById(R.id.search_bar);
-        badgeRecycler = findViewById(R.id.recycler_view_badges);
+        badgeRecycler = findViewById(R.id.badgeRecycler);
         filterRecycler = findViewById(R.id.filterRecycler);
         backBtn = findViewById(R.id.back);
         bookmarkedBtn = findViewById(R.id.bookmarked);
