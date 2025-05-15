@@ -68,21 +68,30 @@ public class ProfileActivity extends BaseActivity {
             }
         });
     }
+    protected void onResume() {
+        super.onResume();
+        refreshProfileInfo();
+    }
+
     private void setupViews() {
+        refreshProfileInfo();
+        setupRecyclerViews();
+    }
+    private void refreshProfileInfo() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser != null) {
             String displayName = currentUser.getDisplayName();
             String userId = currentUser.getUid();
 
-            // Update the TextView with display name
+            // Update name
             if (displayName != null && !displayName.isEmpty()) {
                 nameText.setText(displayName);
             } else {
                 nameText.setText("User");
             }
 
-            // Fetch the role from Firestore
+            // Fetch additional profile info from Firestore
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("users").document(userId).get()
                     .addOnSuccessListener(documentSnapshot -> {
@@ -90,17 +99,8 @@ public class ProfileActivity extends BaseActivity {
                             String displayRole = documentSnapshot.getString("role");
                             String displayBio = documentSnapshot.getString("bio");
 
-                            if (displayRole != null) {
-                                roleText.setText(displayRole); // Set the role text here
-                            } else {
-                                roleText.setText("Role not found");
-                            }
-
-                            if (displayBio != null) {
-                                bioText.setText(displayBio); // Set the bio text here
-                            } else {
-                                bioText.setText("No bio");
-                            }
+                            roleText.setText(displayRole != null ? displayRole : "Role not found");
+                            bioText.setText(displayBio != null ? displayBio : "No bio");
                         }
                     })
                     .addOnFailureListener(e -> {
@@ -108,14 +108,11 @@ public class ProfileActivity extends BaseActivity {
                         bioText.setText("Error fetching bio");
                     });
 
-
         } else {
             nameText.setText("Not logged in");
             roleText.setText("Unknown Role");
             bioText.setText("No bio");
         }
-
-        setupRecyclerViews();
     }
 
 

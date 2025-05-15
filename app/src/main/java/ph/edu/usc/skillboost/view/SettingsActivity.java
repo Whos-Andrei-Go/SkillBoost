@@ -280,7 +280,7 @@ public class SettingsActivity extends BaseActivity {
     private void setupClickListeners() {
         editProfile.setOnClickListener(v -> {
             Toast.makeText(this, "Edit Profile Clicked", Toast.LENGTH_SHORT).show();
-            // startActivity(new Intent(this, EditProfileActivity.class));
+             startActivity(new Intent(this, EditProfileActivity.class));
         });
 
         changePassword.setOnClickListener(v -> togglePasswordForm());
