@@ -8,23 +8,23 @@
             android:icon="@null"
             android:textAppearance="@style/CustomMenuTextAppearance"/>
         <item
-            android:id="@+id/module1"
+            android:id="@+id/module_1"
             android:icon="@drawable/icon_nav_home"
             android:title="Module I." />
         <item
-            android:id="@+id/module2"
+            android:id="@+id/module_2"
             android:icon="@drawable/icon_nav_home"
             android:title="Module II." />
         <item
-            android:id="@+id/module3"
+            android:id="@+id/module_3"
             android:icon="@drawable/icon_nav_home"
             android:title="Module III." />
         <item
-            android:id="@+id/module4"
+            android:id="@+id/module_4"
             android:icon="@drawable/icon_nav_home"
             android:title="Module IV." />
         <item
-            android:id="@+id/module5"
+            android:id="@+id/module_5"
             android:icon="@drawable/icon_nav_home"
             android:title="Module V." />
     </group>
@@ -51,6 +51,7 @@
 
     <!-- About -->
     <item
+        android:id="@+id/other_info"
         android:title="Other Info"
         android:icon="@null"
         android:textAppearance="@style/CustomMenuTextAppearance"/>
