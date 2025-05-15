@@ -28,6 +28,11 @@ public class AuthViewModel extends ViewModel {
         authRepository.register(email, password, displayName, bio);
     }
 
+    public LiveData<Boolean> deleteAccount(String password) {
+        return authRepository.deleteAccount(password);
+    }
+
+
     public boolean isUserLoggedIn() {
         return authRepository.isUserLoggedIn();
     }

@@ -205,6 +205,47 @@ public class AuthRepository {
                 });
     }
 
+    public LiveData<Boolean> deleteAccount(String password) {
+        MutableLiveData<Boolean> resultLiveData = new MutableLiveData<>();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        if (currentUser != null && currentUser.getEmail() != null) {
+            AuthCredential credential = EmailAuthProvider.getCredential(currentUser.getEmail(), password);
+
+            // Re-authenticate before sensitive action
+            currentUser.reauthenticate(credential)
+                    .addOnSuccessListener(reauthResult -> {
+                        // First delete user document from Firestore
+                        db.collection("users").document(currentUser.getUid()).delete()
+                                .addOnSuccessListener(unused -> {
+                                    // Then delete Firebase account
+                                    currentUser.delete()
+                                            .addOnSuccessListener(unused2 -> {
+                                                userLiveData.setValue(null);
+                                                resultLiveData.setValue(true);
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                errorLiveData.setValue("Failed to delete Firebase account: " + e.getMessage());
+                                                resultLiveData.setValue(false);
+                                            });
+                                })
+                                .addOnFailureListener(e -> {
+                                    errorLiveData.setValue("Failed to delete Firestore data: " + e.getMessage());
+                                    resultLiveData.setValue(false);
+                                });
+                    })
+                    .addOnFailureListener(e -> {
+                        errorLiveData.setValue("Re-authentication failed: " + e.getMessage());
+                        resultLiveData.setValue(false);
+                    });
+        } else {
+            errorLiveData.setValue("User is not logged in.");
+            resultLiveData.setValue(false);
+        }
+
+        return resultLiveData;
+    }
+
 
     public boolean isUserLoggedIn() {
         return firebaseAuth.getCurrentUser() != null;
