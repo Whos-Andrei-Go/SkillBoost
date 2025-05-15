@@ -103,32 +103,6 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/buttonGoogleLogin"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="14dp"
-                android:text="Google"
-                android:fontFamily="@font/poppins_regular"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#B79EFF"
-                android:layout_marginBottom="16dp" />
-
-            <Button
-                android:id="@+id/buttonFacebookLogin"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="14dp"
-                android:text="Facebook"
-                android:fontFamily="@font/poppins_regular"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#B79EFF"
-                android:layout_marginBottom="16dp" />
-
-            <Button
                 android:id="@+id/buttonSignIn"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
