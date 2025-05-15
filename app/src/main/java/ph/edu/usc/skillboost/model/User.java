@@ -14,7 +14,7 @@ public class User {
     private List<String> enrolledCourses;
     private List<String> completedCourses;
     private List<String> badges;
-    private List<String> preferences;
+    private List<Topic> preferences;
     private long createdAt;
     private long lastLogin;
     private String photoUrl;
@@ -23,7 +23,7 @@ public class User {
 
     public User(String uid, String name, String email, String role, String gender, String bio, long dob,
                 List<String> enrolledCourses, List<String> completedCoursesCourses, List<String> badges,
-                List<String> preferences, long createdAt, long lastLogin, String photoUrl) {
+                List<Topic> preferences, long createdAt, long lastLogin, String photoUrl) {
         this.uid = uid;
         this.name = name;
         this.email = email;
@@ -70,7 +70,7 @@ public class User {
     public List<String> getBadges() { return badges; }
     public void setBadges(List<String> badges) { this.badges = badges; }
 
-    public List<String> getPreferences() { return preferences; }
+    public List<Topic> getPreferences() { return preferences; }
     public void setPreferences() { this.preferences = preferences; }
 
     public long getCreatedAt() { return createdAt; }

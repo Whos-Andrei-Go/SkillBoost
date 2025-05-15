@@ -1,12 +1,15 @@
 package ph.edu.usc.skillboost.view.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import ph.edu.usc.skillboost.R;
@@ -63,4 +66,17 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHol
         topicList.addAll(newTopics);
         notifyDataSetChanged();
     }
+
+    public List<Topic> getSelectedTopics() {
+        List<Topic> selectedTopics = new ArrayList<>();
+        for (Topic topic : topicList) {
+            if (topic.isSelected()) {
+                selectedTopics.add(topic);
+            }
+        }
+        Log.d("PreferencesActivity", "Selected topics: " + selectedTopics.size());
+        return selectedTopics;
+    }
 }
+
+

@@ -5,6 +5,9 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
+import ph.edu.usc.skillboost.model.Topic;
 import ph.edu.usc.skillboost.model.User;
 import ph.edu.usc.skillboost.repository.AuthRepository;
 
@@ -24,8 +27,8 @@ public class AuthViewModel extends ViewModel {
         authRepository.logout(context);
     }
 
-    public void register(String email, String password, String displayName, String bio) {
-        authRepository.register(email, password, displayName, bio);
+    public void register(String email, String password, String displayName, String bio, List<Topic> preferences) {
+        authRepository.register(email, password, displayName, bio, preferences);
     }
 
     public LiveData<Boolean> deleteAccount(String password) {

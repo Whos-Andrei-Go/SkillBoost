@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/preferences"
+    android:id="@+id/activity_preferences"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
@@ -22,15 +22,15 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/register" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/backArrow"-->
-<!--                android:layout_width="50dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:src="@drawable/arrow_left"-->
-<!--                android:contentDescription="Back"-->
-<!--                android:padding="4dp"-->
-<!--                android:layout_margin="16dp"-->
-<!--                android:layout_gravity="start|top" />-->
+            <ImageView
+                android:id="@+id/backArrow"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/arrow_left"
+                android:contentDescription="Back"
+                android:padding="4dp"
+                android:layout_margin="16dp"
+                android:layout_gravity="start|top" />
         </FrameLayout>
 
         <!-- Content -->

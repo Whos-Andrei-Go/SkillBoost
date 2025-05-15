@@ -51,31 +51,47 @@ public class RegisterActivity extends AppCompatActivity {
             String password = passwordEditText.getText().toString().trim();
             String bio = bioEditText.getText().toString().trim();
 
+            // Check if email is empty
             if (email.isEmpty()) {
                 emailEditText.setError("Enter email");
                 emailEditText.requestFocus();
                 return;
             }
 
+            // Check if the email format is valid
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                emailEditText.setError("Enter a valid email address");
+                emailEditText.requestFocus();
+                return;
+            }
+
+            // Check if password is empty or too short
             if (password.isEmpty() || password.length() < 6) {
                 passwordEditText.setError("Password must be 6+ chars");
                 passwordEditText.requestFocus();
                 return;
             }
 
+            // Check if name is empty
             if (name.isEmpty()) {
                 nameEditText.setError("Enter name");
                 nameEditText.requestFocus();
                 return;
             }
 
+            // Handle bio (allow empty)
             if (bio.isEmpty()) {
                 bio = "";
-                return;
             }
 
-            authViewModel.register(email, password, name, bio);
+            Intent intent = new Intent(RegisterActivity.this, PreferencesActivity.class);
+            intent.putExtra("name", name);
+            intent.putExtra("email", email);
+            intent.putExtra("password", password);
+            intent.putExtra("bio", bio);
+            startActivity(intent);
         });
+
 
         backArrow.setOnClickListener(v -> finish());
 

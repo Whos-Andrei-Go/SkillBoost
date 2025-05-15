@@ -18,7 +18,9 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import ph.edu.usc.skillboost.model.Topic;
 import ph.edu.usc.skillboost.model.User;
 
 public class AuthRepository {
@@ -122,7 +124,7 @@ public class AuthRepository {
         userLiveData.setValue(null);
     }
 
-    public void register(String email, String password, String displayName, String bio) {
+    public void register(String email, String password, String displayName, String bio, List<Topic> preferences) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -168,7 +170,7 @@ public class AuthRepository {
                                                     new ArrayList<>(),
                                                     new ArrayList<>(),
                                                     new ArrayList<>(),
-                                                    new ArrayList<>(),
+                                                    preferences,
                                                     System.currentTimeMillis(),
                                                     System.currentTimeMillis(),
                                                     photoUrl
