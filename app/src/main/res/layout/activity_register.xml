@@ -50,18 +50,6 @@
                 android:textSize="20sp"
                 android:layout_marginBottom="24dp" />
 
-            <Spinner
-                android:id="@+id/spinnerAccountType"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/rect"
-                android:hint="Account Type"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="8dp"
-                android:popupBackground="#222222"
-                android:spinnerMode="dropdown" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -166,7 +154,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Bio"
+                    android:hint="Bio (optional)"
                     android:background="@android:color/transparent"
                     android:textColor="#FFFFFF"
                     android:textColorHint="#CCCCCC"

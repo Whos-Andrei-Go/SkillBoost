@@ -27,6 +27,7 @@ import java.util.List;
 
 import ph.edu.usc.skillboost.R;
 import ph.edu.usc.skillboost.model.Module;
+import ph.edu.usc.skillboost.utils.Utilities;
 import ph.edu.usc.skillboost.view.adapters.ModuleAdapter;
 import ph.edu.usc.skillboost.viewmodel.CourseViewModel;
 
@@ -36,7 +37,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
     List<Module> moduleList;
     ModuleAdapter moduleAdapter;
     Button startCourse;
-    ImageView back;
+    ImageView back, courseImage;
     TextView courseTitleText, courseDescriptionText;
     String courseId;
 
@@ -62,6 +63,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         courseTitleText = findViewById(R.id.txt_course_title);
         moduleRecyler = findViewById(R.id.recycler_view_modules);
         startCourse = findViewById(R.id.start_course);
+        courseImage = findViewById(R.id.img_course);
     }
 
     private void setupListeners(){
@@ -101,6 +103,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
             if (course != null) {
                 courseTitleText.setText(course.getTitle());
                 courseDescriptionText.setText(course.getDescription());
+                courseImage.setImageResource(Utilities.getDrawableFromRes(this, course.getImageRes()));
             } else {
                 Toast.makeText(this, "Course not found", Toast.LENGTH_SHORT).show();
             }
