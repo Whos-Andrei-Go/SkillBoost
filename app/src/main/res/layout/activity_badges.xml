@@ -29,12 +29,6 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <ImageView
-            android:id="@+id/bookmarked"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/bookmark"
-            android:layout_gravity="center" />
     </LinearLayout>
 
     <!-- Search Bar -->
@@ -79,8 +73,12 @@
             android:overScrollMode="never"
             android:scrollbars="none"
             android:layout_marginBottom="8dp" />
-
     </LinearLayout>
+
+    <!-- Spacer between the two RecyclerViews -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
 
     <!-- Spacer to push badges RecyclerView downward -->
     <View
@@ -99,11 +97,5 @@
         android:orientation="vertical"
         android:overScrollMode="never"
         android:scrollbars="none" />
-
-    <!-- Spacer to push badges RecyclerView upward -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
 </LinearLayout>

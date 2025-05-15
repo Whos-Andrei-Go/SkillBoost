@@ -46,9 +46,6 @@ public class BadgesActivity extends BaseActivity {
         setupSearch();
 
         backBtn.setOnClickListener(v -> finish());
-        bookmarkedBtn.setOnClickListener(v -> {
-            // TODO: Navigate to bookmarked badges
-        });
 
         badgeAdapter.setOnBadgeClickListener(badge -> showBadgeDialog(badge));
 
@@ -59,7 +56,6 @@ public class BadgesActivity extends BaseActivity {
         badgeRecycler = findViewById(R.id.badgeRecycler);
         filterRecycler = findViewById(R.id.filterRecycler);
         backBtn = findViewById(R.id.back);
-        bookmarkedBtn = findViewById(R.id.bookmarked);
     }
 
     private void setupRecyclerViews() {
